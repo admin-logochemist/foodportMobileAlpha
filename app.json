@@ -7,6 +7,17 @@
       "ios",
       "android",
       "web"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "00753071-4298-4b97-92df-29b1a3735923"
+      }
+    },
+    "android": {
+      "package": "com.tylerscott.blank"
+    },
+    "ios": {
+      "bundleIdentifier": "com.tylerscott.blank"
+    }
   }
 }
