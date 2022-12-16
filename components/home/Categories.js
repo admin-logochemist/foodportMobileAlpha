@@ -32,7 +32,7 @@ const items = [
       },
 ];
 
-export default function Categories() {
+export default function Categories({ navigation }) {
   return (
     <View style={{
         marginTop:5,
@@ -43,12 +43,13 @@ export default function Categories() {
     >
     <ScrollView horizontal>
     {items.map((item, index) => (
-    <View key={index} style={{ alignItems:"center" , marginRight:30 }}>
+    <View key={index} style={{ alignItems:"center" , marginRight:30 }} >
       <Image source={item.image} style={{
         width:50,
         height:40,
         resizeMode: "contain",
-      }} />
+      }} 
+      />
       <Text style={{ fontSize:13, fontWeight:"900" }}>{item.text}</Text>
       </View>
       ))}

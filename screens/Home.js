@@ -8,6 +8,7 @@ import RestaurantItems, {
   localRestaurants,
 } from "../components/home/RestaurantItems";
 import BottomTabs from '../components/home/BottomTabs';
+// import BtabNav from '../BtabNav';
 
 
 const YELP_API_KEY = 
@@ -20,7 +21,6 @@ export default function Home({ navigation }) {
   const [city , setCity]= useState("San Francisco");
 
   const [activeTab , setActiveTab]= useState("Delivery");
-
 
 
   const getRestaurantsFromYelp = () => {
@@ -44,7 +44,7 @@ export default function Home({ navigation }) {
 
   };
 
-  useEffect(() =>{
+  useEffect(() => {
     getRestaurantsFromYelp();
   }, [city, activeTab]);
 
@@ -61,8 +61,9 @@ export default function Home({ navigation }) {
         navigation={navigation}
       />
     </ScrollView>
-    <Divider width={1} />
-    <BottomTabs />
+    <Divider width={10} color={'red'} />
+  {/*  <BottomTabs /> 
+    <BtabNav />*/}
   </SafeAreaView>
   )
 }

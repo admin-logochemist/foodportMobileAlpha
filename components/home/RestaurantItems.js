@@ -35,6 +35,8 @@ export const localRestaurants = [
 
 
 export default function RestaurantItems({ navigation, ...props }) {
+   
+
   return (
     <>
       {props.restaurantData.map((restaurant, index) => (
@@ -66,6 +68,7 @@ export default function RestaurantItems({ navigation, ...props }) {
 }
 
 const RestaurantImage = (props) => (
+  
   <>
     <Image
       source={{
@@ -73,7 +76,10 @@ const RestaurantImage = (props) => (
       }}
       style={{ width: "100%", height: 180 }}
     />
-    <TouchableOpacity style={{ position: "absolute", right: 20, top: 20 }}>
+    <TouchableOpacity onPress={(e)=>{
+      console.log(e.target.value)
+    }} 
+    style={{ position: "absolute", right: 20, top: 20 }}>
       <MaterialCommunityIcons name="heart-outline" size={25} color="#fff" />
     </TouchableOpacity>
   </>

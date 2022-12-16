@@ -22,13 +22,13 @@ export default function HeaderTabs(props) {
       activeTab={props.activeTab} 
       setActiveTab={props.setActiveTab}  />
 
-     <HeaderButton 
+     {/*<HeaderButton 
      text="FoodTruck" 
      btnColor="black" 
      textColor="white" 
      activeTab={activeTab} 
      setActiveTab={setActiveTab} 
-     />
+  />*/}
 
     </View>
   )
