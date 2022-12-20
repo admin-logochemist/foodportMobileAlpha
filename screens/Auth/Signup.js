@@ -1,13 +1,105 @@
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native'
-import React from 'react';
+import React, { useState } from 'react';
 import Background from '../../components/Authentication/Background';
 import Field from '../../components/Authentication/Field';
-import Button from '../../components/Authentication/Button';
+import Buttonz from '../../components/Authentication/Button';
 import Datepick from '../../components/Authentication/Datepick';
+import { app,db, auth } from '../../firebase.js';
+import firebase from 'firebase/compat/app';
+import { login, logout } from '../../redux/reducers/UserSlice';
+import { useDispatch } from 'react-redux';
+import RNPickerSelect from 'react-native-picker-select';
+import { Button } from 'react-native'
+// import DatePicker from 'react-native-date-picker'
 
 
-export default function Signup(props) {
+export default function Signup({props, navigation}) {
+
+  const dispatch = useDispatch();
+  const auth = firebase.auth();
+
+
+const [city, setCity] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  // const [bname, setBName] = useState("");
+  const [address, setAddress] = useState("");
+  const [state, setState] = useState("");
+  const [day, setDay] = useState("");
+  const [month, setMonth] = useState("");
+  const [year, setYear] = useState("");
+  const [date, setDate] = useState(new Date())
+  const [open, setOpen] = useState(false)
+  // const [uids, setUids] = useState("");
+  // const [hasError, Error] = useState("");
+  const [zipcode, setZipcode] = useState("");
+  const [question, setQuestion] = useState("");
+  const [answer, setAnswer] = useState("");
+  const [select, setSelect] = useState("user");
+
+
+const register = () => {
+     
+  auth.createUserWithEmailAndPassword(email, password).then((userAuth) => {
+      userAuth.user.updateProfile({
+          displayName: name,
+          // usertype:select
+      }).then(() => {
+          dispatch(login({
+              email: userAuth.user.email,
+              uid: userAuth.user.uid,
+              displayName: name,
+          }))
+      })
+  })
+  // history.push('./signin')
+  navigation.navigate("Home")
+
+  db.collection('user').add(
+      {
+        city: city,
+        email: email,
+        password: password,
+        name: firstName + lastName,
+        phone: phone,
+        // select: "advertizer",
+        bname: bname,
+        object: "bank_account",
+        country: "US",
+        currency: "usd",
+        routing_number: "110000000",
+        account_number: "000123456789",
+        address: address,
+        zip: zip,
+        state: state,
+        question: question,
+        answer: answer,
+        day: day,
+        month: month,
+        year: year,
+
+      }
+  )
+}
+
+
+const handleSignUp = () => {
+  auth
+      .createUserWithEmailAndPassword(email, password)
+      .then(userCredentials => {
+        const user = userCredentials.user;
+        console.log('Registered with:', user.email);
+      })
+      .catch(error => alert(error.message))
+}
+
+
   return (
+
     <Background>
     <View style={{ alignItems:'center', width:400 }}>
       <Text style={{ 
@@ -43,49 +135,43 @@ export default function Signup(props) {
         fontWeight: "bold",
         }}>
         First Name </Text>
-        <Field palceholder="Email / Username" />
+        <Field value={firstName} onChangeText={text => setFirstName(text)} palceholder="Last Name" />
         
         <Text style={{ color: "black",
         fontSize: 17,
         fontWeight: "bold",
         }}>
        Last Name </Text>
-        <Field palceholder="Email / Username" />
+        <Field value={lastName} onChangeText={text => setLastName(text)} palceholder="Last Name" />
         
         <Text style={{ color: "black",
         fontSize: 17,
         fontWeight: "bold",
         }}>
        Email </Text>
-        <Field palceholder="Email / Username" keyboardType={"email-address"} />
+        <Field value={email} onChangeText={text => setEmail(text)} palceholder="Email" keyboardType={"email-address"} />
 
         <Text style={{ color: "black",
         fontSize: 17,
         fontWeight: "bold",
         }}>
        Phone </Text>
-        <Field palceholder="Email / Username" keyboardType={"numeric"} />
+        <Field value={phone} onChangeText={text => setPhone(text)} palceholder="Phone" keyboardType={"numeric"} />
 
         <Text style={{ color: "black",
         fontSize: 17,
         fontWeight: "bold",
       }}>
       Password </Text>
-      <Field palceholder="Password" secureTextEntry={true} />
+      <Field  value={password} onChangeText={text => setPassword(text)} palceholder="Password" secureTextEntry={true} />
 
-      <Text style={{ color: "black",
-        fontSize: 17,
-        fontWeight: "bold",
-      }}>
-      Confirm Password </Text>
-      <Field palceholder="Password" secureTextEntry={true} />
 
       <Text style={{ color: "black",
       fontSize: 17,
       fontWeight: "bold",
       }}>
       Address </Text>
-      <Field palceholder="Address" />
+      <Field value={address} onChangeText={text => setAddress(text)} palceholder="Address" />
 
 
         <Text style={{ color: "black",
@@ -93,28 +179,71 @@ export default function Signup(props) {
         fontWeight: "bold",
         }}>
         City </Text>
-        <Field palceholder="City" />
+        <Field value={city} onChangeText={text => setCity(text)} palceholder="City" />
 
         <Text style={{ color: "black",
         fontSize: 17,
         fontWeight: "bold",
         }}>
         State </Text>
-        <Field palceholder="State"  />
+        <Field value={state} onChangeText={text => setState(text)} palceholder="State"  />
 
         <Text style={{ color: "black",
         fontSize: 17,
         fontWeight: "bold",
         }}>
         Zip Code </Text>
-        <Field palceholder="Email / Username" keyboardType={"numeric"} />
+        <Field value={zipcode} onChangeText={text => setZipcode(text)} palceholder="Email / Username" keyboardType={"numeric"} />
+
 
         <Text style={{ color: "black",
         fontSize: 17,
         fontWeight: "bold",
         }}>
+        Questions </Text>
+        <View>
+        <RNPickerSelect
+            onValueChange={(value) => setQuestion(value)}
+            items={[
+                { label: 'What is your pet Name?', value: 'What is your pet Name?' },
+                { label: 'What is your age?', value: 'What is your age?' },
+                { label: 'What is your school Name', value: 'What is your school Name' },
+            ]}
+        />
+        </View>
+        <Field value={answer} onChangeText={text => setAnswer(text)} palceholder="Answer" keyboardType={"text"} />
+
+
+
+        <Text style={{ color: "black",
+        fontSize: 27,
+        fontWeight: "bold",
+        }}>
         Date of Birth </Text>
-        <Datepick />
+        
+        <Text style={{ color: "black",
+        fontSize: 17,
+        fontWeight: "bold",
+        }}>
+        Year </Text>
+        <Field value={year} onChangeText={text => setYear(text)} palceholder="Answer" keyboardType={"numeric"} />
+       
+        <Text style={{ color: "black",
+        fontSize: 17,
+        fontWeight: "bold",
+        }}>
+        Month </Text>
+        <Field value={month} onChangeText={text => setMonth(text)} palceholder="Answer" keyboardType={"numeric"} />
+      
+        <Text style={{ color: "black",
+        fontSize: 17,
+        fontWeight: "bold",
+        }}>
+        Day </Text>
+        <Field value={day} onChangeText={text => setDay(text)} palceholder="Answer" keyboardType={"numeric"} />
+      
+
+
 
       
       <View style={{ 
@@ -131,8 +260,8 @@ export default function Signup(props) {
       Forgot Your Password?
       </Text>
       </View>
-      <Button textColor="white" bgColor= "red" btnLabel="Sign Up" 
-      Press={() => alert("Welcome You Are Signed In") } />
+      <Buttonz textColor="white" bgColor= "red" btnLabel="Sign Up" 
+      Press={() => register()} />
       <View style={{ 
         display: 'flex',
         flexDirection: 'row',
@@ -142,7 +271,7 @@ export default function Signup(props) {
       
       <Text style={{ fontWeight: "bold", fontSize: 17 }}>Do you have an account ? </Text>
       <TouchableOpacity onPress={() => props.navigation.navigate("Loginz")}>
-      <Text style={{ color:"red", fontWeight: "bold", fontSize: 17 }}>Login</Text>
+      <Text onPress={() => handleSignUp()} style={{ color:"red", fontWeight: "bold", fontSize: 17 }}>Login</Text>
       </TouchableOpacity>
       </View>
       </View>

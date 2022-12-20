@@ -4,6 +4,7 @@ import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-ta
 
 
     const Profiledata = ({itemData}) => {
+      
   return (
 <>
    

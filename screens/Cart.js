@@ -58,8 +58,9 @@ export default function Cart() {
         height: "100%",
       }}
     >
+    
      <Image style={{ height: 400, alignSelf: "center", marginBottom: 10 }}
-     source={require("../assets/cart/71390-shopping-cart-loader.gif")}/>
+     source={require("../assets/cart/71390-shopping-cart-loader.gif")} />
       <Text style={{ fontSize: 20, fontWeight: "bold" }}>
        Your Cart Items
       </Text>

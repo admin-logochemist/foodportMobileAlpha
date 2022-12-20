@@ -10,6 +10,7 @@ import Account from "./screens/Account";
 import BtabNav from "./BtabNav";
 import Login from './screens/Auth/Login';
 import Signup from './screens/Auth/Signup';
+import Auth from './screens/Auth/Auth.js';
 
 
 const store = configureStore();
@@ -25,14 +26,15 @@ export default function RootNavigation() {
   return (
     <ReduxProvider store={store}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="BtabNav" screenOptions={screenOptions}>
+        <Stack.Navigator initialRouteName="Auth" screenOptions={screenOptions}>
+        <Stack.Screen name="Auth" component={Auth} />
+         <Stack.Screen name="Loginz" component={Login} />
+         <Stack.Screen name="Signup" component={Signup} />
         <Stack.Screen name="BtabNav" component={BtabNav} />
-          <Stack.Screen name="Home" component={Home} />
+        {/*  <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="RestaurantDetail" component={RestaurantDetail} />
           <Stack.Screen name="OrderCompleted" component={OrderCompleted} />
-          <Stack.Screen name="Account" component={Account} />
-          <Stack.Screen name="Loginz" component={Login} />
-          <Stack.Screen name="Signup" component={Signup} />
+  <Stack.Screen name="Account" component={Account} />*/}
         </Stack.Navigator>
       </NavigationContainer>
     </ReduxProvider>

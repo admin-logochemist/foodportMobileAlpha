@@ -2,6 +2,8 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
+// const provider = firebase.auth.FacebookAuthProvider;
+// import auth from '@react-native-firebase/auth';
 // import { initializeApp } from "firebase/app";
 // import { getAnalytics } from "firebase/analytics";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -9,6 +11,7 @@ import 'firebase/compat/firestore';
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+
 const firebaseConfig = {
   apiKey: "AIzaSyD_m0QPsuUU_wh43oPrqM_zQ-DkCYzjQlc",
   authDomain: "foodcart-302716.firebaseapp.com",
@@ -23,4 +26,8 @@ const firebaseConfig = {
 // Initialize Firebase
 !firebase.apps.length ? firebase.initializeApp(firebaseConfig) : firebase.app();
 
+const auth = firebase.auth();
+
+
 export default firebase;
+

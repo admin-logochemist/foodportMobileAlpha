@@ -1,41 +1,44 @@
-import { View, Text, TouchableOpacity } from 'react-native'
-import React,{useState} from 'react';
+import { View, Text, TouchableOpacity, KeyboardAvoidingView } from 'react-native'
+import React, { useState } from 'react';
 import Background from '../../components/Authentication/Background';
 import Field from '../../components/Authentication/Field';
 import Button from '../../components/Authentication/Button';
-// import { updateDoc, collection, onSnapshot, orderBy, query, doc, getDocs, where, getDoc, addDoc, deleteDoc } from 'firebase/firestore';
-import { app,db } from '../../firebase.js';
+import { app,db  } from '../../firebase.js';
+import { useDispatch } from 'react-redux';
+// import firebase from "firebase";
+import firebase from 'firebase/compat/app';
+import { login, logout } from '../../redux/reducers/UserSlice';
 
 
 
-export default function Login(props) {
-  
-//   const [email,setemail] =useState()
-//   const [password,setpassword] =useState()
+
+export default function Login({props, navigation}) {
 
 
-//   const logintoApp =  async  (e) => {
-//     const querySnapshot = await getDocs(collection(db, "userid"), where("select", "==", "admin"));
-//     querySnapshot.forEach((doc) => {
-//       console.log(doc.id, " => ", doc.data());
-//       data.push({ id: doc.id, ...doc.data() })
-//     })
-//     try{
-//     const filterData =  data.filter((item) => item.select === "user" && item.email === email && item.password === password)
-//     if (filterData) {
-//       console.log(filterData,"Show")
-//     }
-//   }
-//  catch(e){
-//    console.log(e)
-//  }
-//   }
- 
-//   console.log(email,password,"assadsasd")
+  const dispatch = useDispatch();
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const auth = firebase.auth();
+
+
+const logintoApp = () => {
+  auth.signInWithEmailAndPassword(email, password).then((userAuth) => {
+    dispatch(login({
+      email: userAuth.user.email,
+      uid: userAuth.user.uid,
+      displayName: userAuth.user.displayName,
+    }))
+  })
+  navigation.navigate("BtabNav")
+  console.log("Alpha is a beast")
+}
 
   return (
+    <KeyboardAvoidingView>
     <Background>
-    <View style={{ alignItems:'center', width:400 }}>
+    <View style={{ alignItems: 'center', width: 400 }}>
       <Text style={{ 
         color:'white',
          fontSize: 64,
@@ -66,15 +69,14 @@ export default function Login(props) {
         fontWeight: "bold",
         }}>
        Email / Username </Text>
-        <Field onChangeText={newText => setemail(newText)} palceholder="Email / Username" keyboardType={"email-address"} />
+        <Field value={email} onChangeText={text => setEmail(text)} palceholder="Email / Username" keyboardType={"email-address"} />
         
         <Text style={{ color: "black",
         fontSize: 17,
          fontWeight: "bold",
          }}>
        Password </Text>
-        <Field onChangeText={newText => setpassword(newText)} palceholder="Password" secureTextEntry={true} />
-
+        <Field value={password} onChangeText={text => setPassword(text)} palceholder="Password" secureTextEntry={true} />
         <View style={{ 
           alignItems: 'flex-end', 
         width: '78%',
@@ -89,7 +91,7 @@ export default function Login(props) {
         Forgot Your Password?
         </Text>
         </View>
-        <Button  textColor="white" bgColor= "red" btnLabel="Login" 
+        <Button textColor="white" bgColor= "red" btnLabel="Login" 
         Press={() => logintoApp()} />
         <View style={{ 
           display: 'flex',
@@ -98,13 +100,14 @@ export default function Login(props) {
         }}>
 
         <Text style={{ fontWeight: "bold", fontSize: 17 }}>Dont't have an account ? </Text>
-        <TouchableOpacity onPress={() => props.navigation.navigate("Signup")}>
+        <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
         <Text style={{ color:"red", fontWeight: "bold", fontSize: 17 }}>Sign Up</Text>
         </TouchableOpacity>
         </View>
     </View>
     </View>
     </Background>
+    </KeyboardAvoidingView>
 
   )
 }

@@ -49,20 +49,24 @@ const { items, restaurantName } = useSelector(
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-    <View
-      style={{
-        margin: 15,
-        alignItems: "center",
-        height: "100%",
-      }}
-    >
+    <View style={{ 
+        height: 200,
+        }}>
       <Image
-        style={{ height: 200, alignSelf: "center", marginBottom: 10 }}
-        source={require("../assets/orders/108009-delivery-order.gif")}
+        style={{ height: 250, width:"60%", alignSelf: "center", marginTop: -30 }}
+        source={require("../assets/orders/dfdsfd.gif")}
         autoPlay
         speed={0.5}
         loop={false}
       />
+      </View>
+    <View
+      style={{
+        margin: 12,
+        alignItems: "center",
+        height: "100%",
+      }}
+    >
       <Text style={{ fontSize: 20, fontWeight: "bold" }}>
        Your orders are here
       </Text>
