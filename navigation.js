@@ -31,10 +31,10 @@ export default function RootNavigation() {
          <Stack.Screen name="Loginz" component={Login} />
          <Stack.Screen name="Signup" component={Signup} />
         <Stack.Screen name="BtabNav" component={BtabNav} />
-        {/*  <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="RestaurantDetail" component={RestaurantDetail} />
           <Stack.Screen name="OrderCompleted" component={OrderCompleted} />
-  <Stack.Screen name="Account" component={Account} />*/}
+          <Stack.Screen name="Account" component={Account} />
         </Stack.Navigator>
       </NavigationContainer>
     </ReduxProvider>

@@ -31,6 +31,7 @@ let defaultState = {
   
       default:
         return state;
+        // console.log(state, "👉");
     }
   };
   

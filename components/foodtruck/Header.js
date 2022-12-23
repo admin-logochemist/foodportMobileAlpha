@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, SafeAreaView, ScrollView, Image } from "react-native";
+import { Divider } from "react-native-elements";
 import { useSelector } from "react-redux";
 import LottieView from "lottie-react-native";
 import firebase from "../firebase";
 import cartReducer from '../redux/reducers/cartReducer';
+import MyCustomLeftComponent from "../components/foodtruck/MyCustomLeftComponent";
+import Header from "../components/foodtruck/Header"
 
 
-export default function Foodtruck() {
+export default function Foodtruck(props) {
 
 //   const [lastOrder, setLastOrder] = useState({
 //     items: [
@@ -45,8 +48,8 @@ export default function Foodtruck() {
   return (
 
     <View>
-      <Text>Foodtruck</Text>
-  
+   <Header />
+
     </View>
   )
 }

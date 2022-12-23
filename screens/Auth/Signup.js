@@ -42,7 +42,7 @@ const [city, setCity] = useState("");
   const [select, setSelect] = useState("user");
 
 
-const register = () => {
+const register = (navigation) => {
      
   auth.createUserWithEmailAndPassword(email, password).then((userAuth) => {
       userAuth.user.updateProfile({
@@ -56,10 +56,10 @@ const register = () => {
           }))
       })
   })
-  // history.push('./signin')
-  navigation.navigate("Home")
+  // navigation.navigate("BtabNav")
+  navigation.navigate("BtabNav")
 
-  db.collection('user').add(
+  db.collection('userid').add(
       {
         city: city,
         email: email,
@@ -81,7 +81,6 @@ const register = () => {
         day: day,
         month: month,
         year: year,
-
       }
   )
 }

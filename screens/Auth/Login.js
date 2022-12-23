@@ -5,10 +5,9 @@ import Field from '../../components/Authentication/Field';
 import Button from '../../components/Authentication/Button';
 import { app,db  } from '../../firebase.js';
 import { useDispatch } from 'react-redux';
-// import firebase from "firebase";
 import firebase from 'firebase/compat/app';
 import { login, logout } from '../../redux/reducers/UserSlice';
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 
@@ -23,16 +22,27 @@ export default function Login({props, navigation}) {
   const auth = firebase.auth();
 
 
-const logintoApp = () => {
+const logintoApp = async () => {
   auth.signInWithEmailAndPassword(email, password).then((userAuth) => {
+    setEmail(userAuth.user.email)
     dispatch(login({
       email: userAuth.user.email,
       uid: userAuth.user.uid,
       displayName: userAuth.user.displayName,
     }))
+    
   })
-  navigation.navigate("BtabNav")
-  console.log("Alpha is a beast")
+   if(email.length == 0){
+  Alert.alert("Invalid hay gando");
+} else{
+  
+  try{
+    AsyncStorage.setItem('email',JSON.stringify(email))
+    navigation.navigate("BtabNav")
+  } catch (error){
+    console.log(error);
+  }
+}
 }
 
   return (
