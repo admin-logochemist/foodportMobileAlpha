@@ -31,7 +31,7 @@ const { items, restaurantName } = useSelector(
     style: "currency",
     currency: "USD",
   });
- 
+
   useEffect(() => {
     const db = firebase.firestore();
     const unsubscribe = db
