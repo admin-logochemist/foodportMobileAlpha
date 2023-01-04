@@ -11,6 +11,10 @@ import BtabNav from "./BtabNav";
 import Login from './screens/Auth/Login';
 import Signup from './screens/Auth/Signup';
 import Auth from './screens/Auth/Auth.js';
+import AddFoodTruck from './screens/FoodTruck/AddFoodtruck.js';
+import FoodtruckDetail from './screens/FoodTruck/FoodtruckDetail.js';
+import AddFoodItems from './screens/FoodTruck/AddFoodItems.js';
+import Editaccounts from './screens/Editaccounts.js';
 
 
 const store = configureStore();
@@ -26,7 +30,7 @@ export default function RootNavigation() {
   return (
     <ReduxProvider store={store}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Auth" screenOptions={screenOptions}>
+        <Stack.Navigator initialRouteName="BtabNav" screenOptions={screenOptions}>
         <Stack.Screen name="Auth" component={Auth} />
          <Stack.Screen name="Loginz" component={Login} />
          <Stack.Screen name="Signup" component={Signup} />
@@ -34,7 +38,10 @@ export default function RootNavigation() {
           <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="RestaurantDetail" component={RestaurantDetail} />
           <Stack.Screen name="OrderCompleted" component={OrderCompleted} />
-          <Stack.Screen name="Account" component={Account} />
+          <Stack.Screen name="AddFoodTruck" component={AddFoodTruck} />
+          <Stack.Screen name="FoodtruckDetail" component={FoodtruckDetail} />
+          <Stack.Screen name="AddFoodItems" component={AddFoodItems} />
+          <Stack.Screen name="Editaccounts" component={Editaccounts} />
         </Stack.Navigator>
       </NavigationContainer>
     </ReduxProvider>

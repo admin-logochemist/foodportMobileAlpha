@@ -1,16 +1,17 @@
-import { View, Text, TouchableOpacity, ScrollView } from 'react-native'
+import { View, Text, TouchableOpacity, ScrollView, KeyboardAvoidingView } from 'react-native'
 import React, { useState } from 'react';
 import Background from '../../components/Authentication/Background';
 import Field from '../../components/Authentication/Field';
 import Buttonz from '../../components/Authentication/Button';
 import Datepick from '../../components/Authentication/Datepick';
-import { app,db, auth } from '../../firebase.js';
+import { app, auth } from '../../firebase.js';
 import firebase from 'firebase/compat/app';
 import { login, logout } from '../../redux/reducers/UserSlice';
 import { useDispatch } from 'react-redux';
 import RNPickerSelect from 'react-native-picker-select';
-import { Button } from 'react-native'
-// import DatePicker from 'react-native-date-picker'
+import { Button } from 'react-native';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 
 export default function Signup({props, navigation}) {
@@ -18,8 +19,8 @@ export default function Signup({props, navigation}) {
   const dispatch = useDispatch();
   const auth = firebase.auth();
 
-
-const [city, setCity] = useState("");
+  const [city, setCity] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -42,39 +43,44 @@ const [city, setCity] = useState("");
   const [select, setSelect] = useState("user");
 
 
-const register = (navigation) => {
+const register =  ()  =>  {
      
   auth.createUserWithEmailAndPassword(email, password).then((userAuth) => {
       userAuth.user.updateProfile({
           displayName: name,
           // usertype:select
-      }).then(() => {
+      }).then(async ()  => {
           dispatch(login({
               email: userAuth.user.email,
               uid: userAuth.user.uid,
               displayName: name,
           }))
+          try{
+          await AsyncStorage.setItem('email',JSON.stringify(email))
+          } catch (error){
+            console.log(error);
+          }
       })
+      
   })
-  // navigation.navigate("BtabNav")
-  navigation.navigate("BtabNav")
-
-  db.collection('userid').add(
-      {
-        city: city,
-        email: email,
+ 
+  // const db = firebase.firestore();
+  firebase.firestore().collection("userid").add(
+    {
+      city: city,
+      email: email,
         password: password,
         name: firstName + lastName,
         phone: phone,
         // select: "advertizer",
-        bname: bname,
+        // bname: bname,
         object: "bank_account",
         country: "US",
         currency: "usd",
         routing_number: "110000000",
         account_number: "000123456789",
         address: address,
-        zip: zip,
+        zipcode: zipcode,
         state: state,
         question: question,
         answer: answer,
@@ -82,7 +88,8 @@ const register = (navigation) => {
         month: month,
         year: year,
       }
-  )
+      )
+      navigation.navigate("BtabNav")
 }
 
 
@@ -98,23 +105,23 @@ const handleSignUp = () => {
 
 
   return (
-
     <Background>
+    <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
     <View style={{ alignItems:'center', width:400 }}>
-      <Text style={{ 
-        color:'white',
-         fontSize: 64,
-          fontWeight:"bold",
-          marginTop:50,
-          marginBottom:20
-        }}>Sign Up</Text>
-        
-        
-        <View style={{ backgroundColor:"white",
-         height: 700,
-          width: 400,
-          borderTopLeftRadius: 130, paddingTop: 100, alignItems: 'center' }}>
-          <ScrollView showsVerticalScrollIndicator={false}>
+    <Text style={{ 
+      color:'white',
+      fontSize: 64,
+      fontWeight:"bold",
+      marginTop:50,
+      marginBottom:20
+    }}>Sign Up</Text>
+    
+    
+    <View style={{ backgroundColor:"white",
+    height: 700,
+    width: 400,
+    borderTopLeftRadius: 130, paddingTop: 100, alignItems: 'center' }}>
+    <ScrollView showsVerticalScrollIndicator={false}>
           <View style={{ alignItems:'center', width: 400 }}>
         <Text style={{ 
           fontSize: 40,
@@ -277,6 +284,7 @@ const handleSignUp = () => {
       </ScrollView>
       </View>
       </View>
+      </KeyboardAvoidingView>
       </Background>
       
   )

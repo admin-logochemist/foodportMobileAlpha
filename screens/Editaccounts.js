@@ -1,10 +1,11 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-export default function MyCustomLeftComponent() {
+export default function Editaccounts() {
+    
   return (
     <View>
-      <Text>MyCustomLeftComponent</Text>
+      <Text>Editaccounts</Text>
     </View>
   )
 }

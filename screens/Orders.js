@@ -36,6 +36,8 @@ const { items, restaurantName } = useSelector(
     const db = firebase.firestore();
     const unsubscribe = db
       .collection("orders")
+      .orderBy("createdAt", "desc")
+      .limit(1)
       .onSnapshot((snapshot) => {
         snapshot.docs.map((doc) => {
           setLastOrder(doc.data());

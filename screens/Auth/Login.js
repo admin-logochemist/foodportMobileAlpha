@@ -22,7 +22,7 @@ export default function Login({props, navigation}) {
   const auth = firebase.auth();
 
 
-const logintoApp = async () => {
+  const logintoApp = async () => {
   auth.signInWithEmailAndPassword(email, password).then((userAuth) => {
     setEmail(userAuth.user.email)
     dispatch(login({
@@ -30,14 +30,14 @@ const logintoApp = async () => {
       uid: userAuth.user.uid,
       displayName: userAuth.user.displayName,
     }))
-    
+
   })
    if(email.length == 0){
-  Alert.alert("Invalid hay gando");
+  alert("Invalid hay");
 } else{
-  
+
   try{
-    AsyncStorage.setItem('email',JSON.stringify(email))
+    await AsyncStorage.setItem('email',JSON.stringify(email))
     navigation.navigate("BtabNav")
   } catch (error){
     console.log(error);

@@ -18,80 +18,86 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 export default function  Account() {
+    const [user, setUser] = useState([]);
+    const [email, setEmail] = useState('');
 
-  const [user, setUser] = useState([]);
-  
-  const [email, setEmail] = useState('');
+    const getData = () => {
+        try {
+            AsyncStorage.getItem("email")
+            .then(value => {
+                if (value != null) {
+                    setEmail(JSON.parse(value))
+                }
+            })
+        } catch (error){
+            console.log(error);
+        }
+    }
 
-// const getData = () => {
-//   try {
-//     AsyncStorage.getItem("email")
-//     .then(value => {
-//       if (value != null) {
-//         setEmail(value)
-//         console.log(email,'udfvjlkfjkld')
-//       }
-//     })
-//   } catch (error){
-//     console.log(error);
-//   }
-// }
+    const getAccounts =  () => {
+      firebase.firestore().collection("userid").where("email", "==", email.toLowerCase())
+        .onSnapshot(snapshot => {            
+            setUser(snapshot.docs.map(doc => (
+            {
+                data: doc.data()
+            }
+            )))
+        });
+    }
 
-     const getAccounts = () => {
-     
-      console.log(email,'udfvjlkfjkld333333333333')
-      firebase.firestore().collection("userid").where("email", "==", "hbl@logochemist.com")
-      .onSnapshot(snapshot => (
-        setUser(snapshot.docs.map(doc => (
-          {
-            data: doc.data()
-          }
-        )))
-      ))
+    const myData = () => {
+      getAccounts();
     };
 
-    // console.log(user,email,"copy")
-    useEffect(() => {
-      // getData();
-     getAccounts();
-    }, []);
+    useEffect(() =>  {
+        getData();
+        myData();
+        if (email !== null) {
+            getAccounts();
+        }
+        // else{
+        //     getAccounts();
+        // }
+ 
+    }, [email]);
+
+    // useEffect(()=>{
+    //   if (email !== null) {
+    //     console.log(email , "alpha is")
+    //     getAccounts();
+    //   }
+    // }, [email])
 
 
     const renderUser = () => {
       if (user.length > 0) {
         async function trying(url) {
-          let image = await url.then(async (url) => { return url })
-          return image.toString()
+            let image = await url.then(async (url) => { return url })
+            return image.toString()
         }
+
         return user.map((item, index) => {
-          var detail = []
-          for (const i in item) {
-            detail.push(item[i])
-          }
-          return detail.map((item, index) => {
-           
-            return (
-  <Profiledata 
-                   itemData={item}
-               />
-              
-            );
-          })
+            var detail = []
+
+            for (const i in item) {
+                detail.push(item[i])
+            }
+
+            return detail.map((item, index) => {
+                return (
+                    <Profiledata itemData={item}/>
+                );
+            })
         })
       }
     };
-  
 
-  return (
-    <SafeAreaView style={{flex:1, backgroundColor:'#fff'}}>
-   
-      {
-        renderUser()
-      }
-     
-  
-
-    </SafeAreaView>
-  )
+    return (
+        <SafeAreaView style={{flex:1, backgroundColor:'#fff'}}>
+            {
+            renderUser()
+            }
+        </SafeAreaView>
+    )
 }
 

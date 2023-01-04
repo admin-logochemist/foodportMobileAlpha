@@ -3,7 +3,7 @@ import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from './screens/Home';
 import Account from './screens/Account';
-import FoodTruck from './screens/Foodtruck';
+import FoodTruck from './screens/FoodTruck/Foodtruck';
 import Orders from './screens/Orders';
 // import Cart from './screens/Orders';
 import FavoriteScreen from './screens/FavoriteScreen';

@@ -35,7 +35,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
             //   const users = null;
             //   navigation.navigate("Auth");
             // }
-
           };
       
   return (

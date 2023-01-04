@@ -10,12 +10,12 @@ export const userSlice = createSlice({
     },
     reducers: {
         login: (state, action) => {
-            console.log('áction', action.payload.email);
+            // console.log('áction', action.payload.email);
             state.user = action.payload;
         },
         logout: (state) => {
            
-            localStorage.removeItem('EMAIL');
+            // localStorage.removeItem('EMAIL');
             state.user = null;
         },
     }
