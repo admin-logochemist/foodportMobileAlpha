@@ -31,7 +31,7 @@ export default function AddFoodtruck({navigation}) {
   const addFoodtruck = () => {
     firebase.firestore().collection("resturant").add(
       {
-        remail: "Test@gmail.com",
+        remail: "hamburger@gmail.com",
         resName: resName,
         address: address,
         cusine: cusine,
@@ -51,7 +51,7 @@ export default function AddFoodtruck({navigation}) {
           console.log(docRef.id);
           return docRef.set({
         itemid:docRef.id,
-        remail: "Test@gmail.com",
+        remail: "hamburger@gmail.com",
         resName: resName,
         address: address,
         cusine: cusine,

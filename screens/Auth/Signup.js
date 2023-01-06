@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, ScrollView, KeyboardAvoidingView } from 'react-native'
+import { View, Text, TouchableOpacity, ScrollView, KeyboardAvoidingView, StyleSheet } from 'react-native'
 import React, { useState } from 'react';
 import Background from '../../components/Authentication/Background';
 import Field from '../../components/Authentication/Field';
@@ -42,9 +42,31 @@ export default function Signup({props, navigation}) {
   const [answer, setAnswer] = useState("");
   const [select, setSelect] = useState("user");
 
+  function ValidateEmail(mail) 
+  {
+   if (/^\w+([.-]?\w+)@\w+([.-]?\w+)(.\w{2,3})+$/.test(mail))
+    {
+      return (true)
+    }
+      alert("You have entered an invalid email address!")
+      return (false)
+  }
+  function ValidatePassword(pass) 
+  {
+   if (/^[A-Za-z]\w{7,14}$/.test(pass))
+    {
+      return (true)
+    }
+      alert("Password must contain 6 to 20 characters which contain at least one numeric digit, one uppercase and one lowercase letter")
+      return (false)
+  }
+
 
 const register =  ()  =>  {
-     
+
+
+  if(ValidateEmail(email) && ValidatePassword(password)) {
+
   auth.createUserWithEmailAndPassword(email, password).then((userAuth) => {
       userAuth.user.updateProfile({
           displayName: name,
@@ -90,6 +112,9 @@ const register =  ()  =>  {
       }
       )
       navigation.navigate("BtabNav")
+}else{
+  console.log("not valid data")
+}
 }
 
 
@@ -210,6 +235,7 @@ const handleSignUp = () => {
         <View>
         <RNPickerSelect
             onValueChange={(value) => setQuestion(value)}
+            style={pickerSelectStyles}
             items={[
                 { label: 'What is your pet Name?', value: 'What is your pet Name?' },
                 { label: 'What is your age?', value: 'What is your age?' },
@@ -217,6 +243,11 @@ const handleSignUp = () => {
             ]}
         />
         </View>
+        <Text style={{ color: "black",
+        fontSize: 17,
+        fontWeight: "bold",
+        }}>
+        Answer </Text>
         <Field value={answer} onChangeText={text => setAnswer(text)} palceholder="Answer" keyboardType={"text"} />
 
 
@@ -289,3 +320,27 @@ const handleSignUp = () => {
       
   )
 }
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    marginTop:5,
+    marginBottom:10,
+      fontSize: 16,
+      paddingVertical: 12,
+      paddingHorizontal: "18%",
+      borderWidth: 1,
+      borderColor: 'gray',
+      borderRadius: 20,
+      color: 'black',
+      // paddingRight: 10, // to ensure the text is never behind the icon
+  },
+  inputAndroid: {
+      fontSize: 16,
+      paddingHorizontal: 10,
+      paddingVertical: 8,
+      borderWidth: 0.5,
+      borderColor: 'purple',
+      borderRadius: 20,
+      color: 'black',
+      paddingRight: 30 // to ensure the text is never behind the icon
+  }
+});

@@ -1,13 +1,18 @@
-import { View, Text, SafeAreaView, ScrollView, Image,  StyleSheet, TextInput } from "react-native";
+import { View, Text, SafeAreaView, ScrollView, Image, Button,  StyleSheet, TextInput } from "react-native";
 import React, { useState, useEffect } from 'react'
 import firebase, { doc }  from 'firebase/compat/app';
 import Loader from '../../components/foodtruck/Loader.js';
 import Input from '../../components/foodtruck/Input.js';
-import Button from '../../components/foodtruck/Button.js';
+import Buttonz from '../../components/foodtruck/Button.js';
 import RNPickerSelect from 'react-native-picker-select';
+import * as ImagePicker from 'expo-image-picker';
+import 'firebase/storage';
+
+// import ImagePicker from 'react-native-image-picker';
 
 
 export default function AddFoodItems(props) {
+
 
     const [loading, setLoading] = useState(false);
 
@@ -21,7 +26,58 @@ export default function AddFoodItems(props) {
     const [title, setTitle] = useState("");
     const [price, setPrice] = useState("");
     const [description, setDescription] = useState("");
-   
+
+    const [image, setImage] = useState(null);
+    const [imageUrl, setImageUrl] = useState(null);
+    // const [image, setImage] = useState(null);
+    // ==========================working here==========================
+//     console.log(image);
+
+    const pickImage = async () => {
+  let result = await ImagePicker.launchImageLibraryAsync({
+    mediaTypes: ImagePicker.MediaTypeOptions.All,
+    allowsEditing: true,
+    aspect: [4, 3],
+    quality: 1,
+  });
+
+  console.log(result);
+
+  if (!result.canceled) {
+    setImage(result.assets[0].uri);
+  }
+};
+
+// useEffect(() => {
+//   const storageRef = firebase.storage().ref();
+//   const imageRef = storageRef.child(image);
+//   imageRef.getDownloadURL().then(url => {
+//     setImageUrl(url);
+//   });
+// }, []);
+    
+// ==========================working here==========================
+
+// const handleSelectImage = () => {
+//   ImagePicker.showImagePicker({}, response => {
+//     if (response.didCancel) {
+//       console.log('User cancelled image picker');
+//     } else if (response.error) {
+//       console.log('ImagePicker Error: ', response.error);
+//     } else {
+//       setImage(response);
+//     }
+//   });
+// };
+
+// const handleUploadImage = () => {
+//   const storageRef = firebase.storage().ref();
+//   const imageRef = storageRef.child('images/my-image.jpg');
+//   imageRef.put(image, { contentType: 'image/jpeg' }).then(() => {
+//     console.log('Image uploaded to Firebase Storage');
+//   });
+// };
+// ==========================working here==========================
 
     const addFoodtruckItems = async () => {
        firebase.firestore().collection("foodtest").add(
@@ -30,7 +86,7 @@ export default function AddFoodItems(props) {
             category: category,
             description: description,
             id: id,
-            image: "image",
+            image: image,
             price: price,
             remail: remail,
             resname: resname,
@@ -46,7 +102,7 @@ export default function AddFoodItems(props) {
                 category: category,
                 description: description,
                 id: id,
-                image: "image",
+                image: image,
                 price: price,
                 remail: remail,
                 resname: resname,
@@ -61,7 +117,7 @@ export default function AddFoodItems(props) {
             props.navigation.navigate("BtabNav")
       }
 
-
+   
   return (
     <SafeAreaView style={{backgroundColor: "white", flex: 1}}>
     <Loader visible={loading} />
@@ -121,8 +177,20 @@ export default function AddFoodItems(props) {
     placeholder="Enter Your Item Description Here">
     </TextInput>
 
+   
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Button title="Pick an image from camera roll" onPress={pickImage} />
+      {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+  </View> 
+
+  {/*<View>
+      <Button title="Select image" onPress={handleSelectImage} />
+      {image && <Button title="Upload image" onPress={handleUploadImage} />}
+    </View> */}
+
+
         <View style={{alignItems:"center"}}>
-        <Button bgColor="red" btnLabel="Add" textColor="white" Press={() => addFoodtruckItems()} />
+        <Buttonz bgColor="red" btnLabel="Add" textColor="white" Press={() => addFoodtruckItems()} />
         </View>
         <Text
           onPress={() => props.navigation.navigate('FoodTruck')}

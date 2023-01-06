@@ -33,8 +33,6 @@ useEffect((isAdmin = true) => {
       })
 }, [])
 
-
-
   return (
     <View>
     <View style={{ alignItems:"center" }}>
@@ -60,7 +58,7 @@ useEffect((isAdmin = true) => {
   {foodtruck!==undefined&&foodtruck!==null&&foodtruck!==''&&foodtruck.length>0?foodtruck.map((items)=> 
     <>
     <TouchableOpacity 
-    key={items.itemid}
+    key={items?.itemid}
         activeOpacity={1}
         style={{ marginBottom: 30 }}
         onPress={() =>

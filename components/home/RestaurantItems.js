@@ -1,6 +1,8 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { Rating, AirbnbRating } from 'react-native-ratings';
+
 
 
 export const localRestaurants = [
@@ -98,17 +100,14 @@ const RestaurantInfo = (props) => (
       <Text style={{ fontSize: 15, fontWeight: "bold" }}>{props.name}</Text>
       <Text style={{ fontSize: 13, color: "gray" }}>30-45 • min</Text>
     </View>
-    <View
-      style={{
-        backgroundColor: "#eee",
-        height: 30,
-        width: 30,
-        alignItems: "center",
-        justifyContent: "center",
-        borderRadius: 15,
-      }}
-    >
-      <Text>{props.rating}</Text>
+    <View>
+<Rating
+  type='star'
+  ratingCount={5}
+  startingValue={props.rating}
+  imageSize={20}
+  style={{ paddingVertical: 10 }}
+/>
     </View>
   </View>
 );

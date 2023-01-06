@@ -140,8 +140,8 @@ export default function ViewCart({ navigation }) {
             alignItems: "center",
             justifyContent: "center",
             flexDirection: "row",
-            position: "absolute",
-            bottom: 210,
+            position: "fixed",
+            bottom: 80,
             zIndex: 999,
           }}
         >
@@ -161,7 +161,8 @@ export default function ViewCart({ navigation }) {
                 padding: 15,
                 borderRadius: 30,
                 width: 300,
-                position: "relative",
+                position: "fixed",
+                height: 55,
               }}
               onPress={() => setModalVisible(true)}
             >

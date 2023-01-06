@@ -32,7 +32,8 @@ export default function FoodtruckDetail({ route, navigation}) {
        }
 
   return (
-    <View>
+    <>
+    <ScrollView>
       <AboutFtruck route={route}/>
       <Divider width={1.8} style={{ marginVertical: 10 }} />
       <View style={{ alignItems:"center" }}>
@@ -43,7 +44,9 @@ export default function FoodtruckDetail({ route, navigation}) {
       textColor= "white" />
       </View>
       <Fmenuitems restaurantName={route.params.name} foods={foods} />
+      </ScrollView>
       <ViewCart navigation={navigation} />
-    </View>
+   </>
+    
   )
 }
