@@ -20,12 +20,12 @@ export default function Signup({props, navigation}) {
   const auth = firebase.auth();
 
   const [city, setCity] = useState("");
-  const [isAdmin, setIsAdmin] = useState(false);
+  // const [isAdmin, setIsAdmin] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [name, setName] = useState("");
+  // const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   // const [bname, setBName] = useState("");
   const [address, setAddress] = useState("");
@@ -41,6 +41,7 @@ export default function Signup({props, navigation}) {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [select, setSelect] = useState("user");
+
 
   function ValidateEmail(mail) 
   {
@@ -61,21 +62,45 @@ export default function Signup({props, navigation}) {
       return (false)
   }
 
+  const getFormData = ()=>{
+            if (
+            city !== '' 
+            && email !== '' 
+            && password !== '' 
+            && firstName !== ''
+            && lastName !== ''
+            && phone !== ''
+            && address !== ''
+            && state !== ''
+            && day !== ''
+            && zipcode !== ''
+            && question !== ''
+            && answer !== ''
+            && select !== ''
+            ){
+              return true;
+            }
+            else{
+              console.log(select)
+              return false;
+            }
+  }
+
 
 const register =  ()  =>  {
-
-
-  if(ValidateEmail(email) && ValidatePassword(password)) {
+  
+  if(ValidateEmail(email) && ValidatePassword(password) && getFormData()) {
 
   auth.createUserWithEmailAndPassword(email, password).then((userAuth) => {
       userAuth.user.updateProfile({
           displayName: name,
-          // usertype:select
+          usertype:select
       }).then(async ()  => {
           dispatch(login({
               email: userAuth.user.email,
               uid: userAuth.user.uid,
               displayName: name,
+              usertype:select,
           }))
           try{
           await AsyncStorage.setItem('email',JSON.stringify(email))
@@ -86,7 +111,6 @@ const register =  ()  =>  {
       
   })
  
-  // const db = firebase.firestore();
   firebase.firestore().collection("userid").add(
     {
       city: city,
@@ -94,7 +118,7 @@ const register =  ()  =>  {
         password: password,
         name: firstName + lastName,
         phone: phone,
-        // select: "advertizer",
+        select: select,
         // bname: bname,
         object: "bank_account",
         country: "US",
@@ -249,9 +273,22 @@ const handleSignUp = () => {
         }}>
         Answer </Text>
         <Field value={answer} onChangeText={text => setAnswer(text)} palceholder="Answer" keyboardType={"text"} />
-
-
-
+        
+        <Text style={{ color: "black",
+        fontSize: 17,
+        fontWeight: "bold",
+        }}>
+        Choose Admin / User</Text>
+        <View>
+        <RNPickerSelect
+        onValueChange={(value) => setSelect(value)}
+        style={pickerSelectStyles}
+        items={[
+            { label: 'user', value: 'user' },
+            { label: 'business', value: 'business' },  
+        ]}
+    />
+</View>
         <Text style={{ color: "black",
         fontSize: 27,
         fontWeight: "bold",

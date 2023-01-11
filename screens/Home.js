@@ -22,10 +22,11 @@ export default function Home({ navigation }) {
 
   const [activeTab , setActiveTab]= useState("Delivery");
 
-
   const getRestaurantsFromYelp = () => {
     const yelpUrl = 
     `https://api.yelp.com/v3/businesses/search?term=restaurants&location=${city}`;
+
+// console.log(restaurantData);
 
   const apiOptions = {
     headers : {
@@ -38,14 +39,24 @@ export default function Home({ navigation }) {
       setRestaurantData(
       json.businesses.filter((business) => 
       business.transactions.includes(activeTab.toLowerCase())
-      )
-      )
+      ))
       );
-
   };
+
+  // const getMenuItemsFromYelp = () => {
+  //   fetch(`https://api.yelp.com/v3/businesses/${'LPoRD0huneBqPZbg1wsJ_Q'}`, {
+  //     headers: {
+  //       Authorization: `Bearer ${YELP_API_KEY}`,
+  //     },
+  //   })
+  //   .then((res) => res.json())
+  //   .then(data => console.log(data.categories))
+  // }
+
 
   useEffect(() => {
     getRestaurantsFromYelp();
+    // getMenuItemsFromYelp();
   }, [city, activeTab]);
 
   return (

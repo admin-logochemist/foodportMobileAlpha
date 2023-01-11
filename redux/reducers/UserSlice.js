@@ -13,11 +13,11 @@ export const userSlice = createSlice({
             // console.log('áction', action.payload.email);
             state.user = action.payload;
         },
-        logout: (state) => {
+        // logout: (state) => {
            
-            // localStorage.removeItem('EMAIL');
-            state.user = null;
-        },
+        //     // localStorage.removeItem('EMAIL');
+        //     // state.user = null;
+        // },
     }
 });
 export const { login, logout } = userSlice.actions;

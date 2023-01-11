@@ -2,7 +2,7 @@ import { View, Text } from 'react-native'
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from './screens/Home';
-import Account from './screens/Account';
+import Accounts from './screens/Accounts';
 import FoodTruck from './screens/FoodTruck/Foodtruck';
 import Orders from './screens/Orders';
 // import Cart from './screens/Orders';
@@ -22,7 +22,7 @@ export default function BtabNav() {
     const { items, restaurantName } = useSelector(
         (state) => state.cartReducer.selectedItems
       );
-      console.log(items.length ,"Alpha Items")
+    //   console.log(items.length ,"Alpha Items for cart")
   
     return (
 
@@ -40,7 +40,8 @@ export default function BtabNav() {
         <FontAwesome5 name="home" color={color} size={size} />
     )
    }} />
-   <Tab.Screen name="Account" component={Account} options={{
+   <Tab.Screen name="Accounts" component={Accounts} options={{
+    headerShown:false,
     tabBarIcon: ({color , size}) => (
         <FontAwesome5 name="user" color={color} size={size} />
     )

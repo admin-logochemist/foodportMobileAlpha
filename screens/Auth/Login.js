@@ -19,30 +19,37 @@ export default function Login({props, navigation}) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const [error, setError] = useState(null);
+
   const auth = firebase.auth();
 
-
-  const logintoApp = async () => {
-  auth.signInWithEmailAndPassword(email, password).then((userAuth) => {
-    setEmail(userAuth.user.email)
-    dispatch(login({
-      email: userAuth.user.email,
-      uid: userAuth.user.uid,
-      displayName: userAuth.user.displayName,
-    }))
-
-  })
-   if(email.length == 0){
-  alert("Invalid hay");
-} else{
-
-  try{
-    await AsyncStorage.setItem('email',JSON.stringify(email))
-    navigation.navigate("BtabNav")
-  } catch (error){
-    console.log(error);
+  const savingEmail = async () => {
+    try{
+      await AsyncStorage.setItem('email',JSON.stringify(email))
+      navigation.navigate("BtabNav")
+    } catch (error){
+        console.log(error);
+      }
   }
-}
+
+
+  const logintoApp =  () => {
+
+firebase.auth()
+.signInWithEmailAndPassword(email, password)
+.then((data) => {
+  console.log(email, 'User logged in successfully');
+  dispatch(login({
+    email: data.email,
+    uid: data.uid,
+    displayName: data.displayName,
+  }))
+  savingEmail();
+})
+.catch((error) => {
+  setError(error.message);
+  alert(error.message);
+});
 }
 
   return (

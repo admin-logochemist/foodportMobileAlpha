@@ -1,8 +1,8 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { Rating, AirbnbRating } from 'react-native-ratings';
-
+import firebase from 'firebase/compat/app';
 
 
 export const localRestaurants = [
@@ -37,7 +37,6 @@ export const localRestaurants = [
 
 
 export default function RestaurantItems({ navigation, ...props }) {
-   
 
   return (
     <>
@@ -60,7 +59,7 @@ export default function RestaurantItems({ navigation, ...props }) {
           <View
             style={{ marginTop: 10, padding: 15, backgroundColor: "white" }}
           >
-            <RestaurantImage image={restaurant.image_url} />
+            <RestaurantImage restaurant={restaurant} image={restaurant.image_url} />
             <RestaurantInfo name={restaurant.name} rating={restaurant.rating} />
           </View>
         </TouchableOpacity>
@@ -69,8 +68,53 @@ export default function RestaurantItems({ navigation, ...props }) {
   );
 }
 
-const RestaurantImage = (props) => (
-  
+
+const RestaurantImage = (props) => {
+  // console.log(docRef._delegate)
+  const [favorite, setIsFavorite] = useState(false);
+  const [favdelid, setFavDelId] = useState('');
+
+  const insertFav = () => {
+    console.log('item add')
+    firebase.firestore().collection("favoritealpha").add(
+      {
+        name: props.restaurant.name,
+        image: props.restaurant.image_url,
+        price: props.restaurant.price,
+        reviews: props.restaurant.review_count,
+        rating: props.restaurant.rating,
+        categories: props.restaurant.categories,
+        id: props.restaurant.id,
+        }
+        ).then(docRef => {
+          console.log(docRef.id);
+          setFavDelId(docRef.id)
+          return docRef.set({
+            favid: docRef.id,
+            name: props.restaurant.name,
+            image: props.restaurant.image_url,
+            price: props.restaurant.price,
+            reviews: props.restaurant.review_count,
+            rating: props.restaurant.rating,
+            categories: props.restaurant.categories,
+            id: props.restaurant.id,
+            time: firebase.firestore.FieldValue.serverTimestamp(),
+          });
+        })
+  }
+  const delFav = () => {
+    console.log('item del')
+  const docRef = firebase.firestore().doc(`favoritealpha/${favdelid}`);
+  docRef
+  .delete()
+  .then(() => {
+    console.log('Document deleted successfully');
+  })
+  .catch((error) => {
+    console.error('Error deleting document: ', error);
+  });
+  }
+  return(
   <>
     <Image
       source={{
@@ -79,13 +123,26 @@ const RestaurantImage = (props) => (
       style={{ width: "100%", height: 180 }}
     />
     <TouchableOpacity onPress={(e)=>{
-      console.log(e.target.value)
+      setIsFavorite(!favorite)
+       if(!favorite){
+           insertFav();
+       }else{
+        delFav();
+       }
     }} 
     style={{ position: "absolute", right: 20, top: 20 }}>
+    {
+      favorite?
+      <MaterialCommunityIcons name="heart" size={25} color="#fff" />
+    :
       <MaterialCommunityIcons name="heart-outline" size={25} color="#fff" />
+    }
+  
+  
     </TouchableOpacity>
   </>
-);
+)
+  }
 
 const RestaurantInfo = (props) => (
   <View
