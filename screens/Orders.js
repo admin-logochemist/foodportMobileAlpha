@@ -8,12 +8,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Orders() {
 
-  const [order, setOrder] = useState("");
+  const [order, setOrder] = useState([]);
   const [items, setItems] = useState([]);
   const [email, setEmail] = useState('');
-
-
-console.log(items, "fsddggdgd")
 
   const getData = () => {
     try {
@@ -32,17 +29,21 @@ let tempdata =[];
 let zemitems = [];
 useEffect(() => {
   getData();
+  
   let firebaseCollection = firebase.firestore().collection("orders").where("email", "==", "hamburger@gmail.com")
   firebaseCollection.onSnapshot(snapshot => {
           snapshot.docs.map(doc => {
           tempdata.push(doc.data())
           zemitems.push(doc.data().items)
-          // console.log(doc.data().items, "dsfsdfgfdsg")
         })
         setOrder(tempdata);
         setItems(zemitems);
       })
     }, [email])
+
+    const setDate = (dtObj) => {
+        return new Date(dtObj.seconds * 1000 + dtObj.nanoseconds/1000000).toString();
+    }
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
@@ -68,28 +69,42 @@ useEffect(() => {
        Your orders are here
       </Text>
       <ScrollView>
-      {order?order.map((data, index) => 
-        <>
-      <Text>{data.email}</Text>
-      <View key={index} style={{ width: 210, marginLeft: 130, marginTop: 10, justifyContent: "space-evenly" }}>
-      <Text style={styles.titleStyle}>{data.restaurantName}</Text>
-      <Text>my description</Text>
-      <Text>123</Text>
-    </View>
-    <View>
-    <Image
-      source={require("../assets/orders/dfdsfd.gif")}
-      style={{
-        width: 100,
-        height: 100,
-        borderRadius: 8,
-        marginTop: -70,
-      }}
-    />
-    </View>
-    </>
-   ):""}
-      </ScrollView>
+      {
+        order.map((_eachOrder, orderKey) =>
+            <>
+            <Text>{setDate(_eachOrder.createdAt)}</Text>
+                {
+                    _eachOrder.items.map((_eachItem, itemKey) => 
+                        <>
+                            <View key={itemKey}>
+                                <Text>{_eachItem.id}</Text>
+                            </View>
+                        </>
+                    )
+                }
+{/* 
+            <View key={orderKey} style={{ width: 210, marginLeft: 130, marginTop: 10, justifyContent: "space-evenly" }}>
+                <Text style={styles.titleStyle}>{_eachOrder.restaurantName}</Text>
+                <Text>my description</Text>
+                <Text>123</Text>
+            </View>
+
+            <View>
+                <Image
+                    source={require("../assets/orders/dfdsfd.gif")}
+                    style={{
+                    width: 100,
+                    height: 100,
+                    borderRadius: 8,
+                    marginTop: -70,
+                    }}
+                />
+            </View> */}
+            </>
+        )
+    }
+
+    </ScrollView>
     </View>
   </SafeAreaView>
   )
