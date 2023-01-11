@@ -1,53 +1,48 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, SafeAreaView, ScrollView, Image } from "react-native";
+import { View, Text, SafeAreaView, ScrollView, Image, StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
 import LottieView from "lottie-react-native";
 import firebase from "../firebase";
 import MenuItems from "../components/restaurantDetail/MenuItems";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Orders() {
 
-  const [lastOrder, setLastOrder] = useState({
-    items: [
-      {
-        title: "Bologna",
-        description: "With butter lettuce, tomato and sauce bechamel",
-        price: "$13.50",
-        image:
-          "https://www.modernhoney.com/wp-content/uploads/2019/08/Classic-Lasagna-14-scaled.jpg",
-      },
-    ],
-  });
-
-const { items, restaurantName } = useSelector(
-    (state) => state.cartReducer.selectedItems
-  );
-
-  const total = items
-    .map((item) => Number(item.price.replace("$", "")))
-    .reduce((prev, curr) => prev + curr, 0);
-
-  const totalUSD = total.toLocaleString("en", {
-    style: "currency",
-    currency: "USD",
-  });
-
-  useEffect(() => {
-    const db = firebase.firestore();
-    const unsubscribe = db
-      .collection("orders")
-      .orderBy("createdAt", "desc")
-      .limit(1)
-      .onSnapshot((snapshot) => {
-        snapshot.docs.map((doc) => {
-          setLastOrder(doc.data());
-        });
-      });
+  const [order, setOrder] = useState("");
+  const [items, setItems] = useState([]);
+  const [email, setEmail] = useState('');
 
 
-    return () => unsubscribe();
-  }, []);
+console.log(items, "fsddggdgd")
 
+  const getData = () => {
+    try {
+        AsyncStorage.getItem("email")
+        .then(value => {
+            if (value != null) {
+                setEmail(JSON.parse(value))
+            }
+        })
+    } catch (error){
+        console.log(error);
+    }
+}
+
+let tempdata =[];
+let zemitems = [];
+useEffect(() => {
+  getData();
+  let firebaseCollection = firebase.firestore().collection("orders").where("email", "==", "hamburger@gmail.com")
+  firebaseCollection.onSnapshot(snapshot => {
+          snapshot.docs.map(doc => {
+          tempdata.push(doc.data())
+          zemitems.push(doc.data().items)
+          // console.log(doc.data().items, "dsfsdfgfdsg")
+        })
+        setOrder(tempdata);
+        setItems(zemitems);
+      })
+    }, [email])
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
@@ -73,13 +68,43 @@ const { items, restaurantName } = useSelector(
        Your orders are here
       </Text>
       <ScrollView>
-        <MenuItems
-          foods={lastOrder.items}
-          hideCheckbox={true}
-          marginLeft={10}
-        />
+      {order?order.map((data, index) => 
+        <>
+      <Text>{data.email}</Text>
+      <View key={index} style={{ width: 210, marginLeft: 130, marginTop: 10, justifyContent: "space-evenly" }}>
+      <Text style={styles.titleStyle}>{data.restaurantName}</Text>
+      <Text>my description</Text>
+      <Text>123</Text>
+    </View>
+    <View>
+    <Image
+      source={require("../assets/orders/dfdsfd.gif")}
+      style={{
+        width: 100,
+        height: 100,
+        borderRadius: 8,
+        marginTop: -70,
+      }}
+    />
+    </View>
+    </>
+   ):""}
       </ScrollView>
     </View>
   </SafeAreaView>
   )
 }
+
+
+const styles = StyleSheet.create({
+  menuItemStyle: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    margin: 20,
+  },
+
+    titleStyle: {
+    fontSize: 19,
+    fontWeight: "600",
+  },
+});

@@ -4,11 +4,26 @@ import getFoodTruck from "../../apis/Foodtruckapi.js";
 import firebase from '../../firebase.js';
 import { Tooltip, Badge, Divider } from "react-native-elements";
 import Button from "../../components/foodtruck/Button.js"
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Foodtruck({ navigation, ...props}) {
 
   const [foodtruck, setFoodTruck] = useState([]);
+  const [isAdmin, setIsAdmin] = useState(true);
+  const [email, setEmail] = useState('');
+
+  const getData = () => {
+    try {
+        AsyncStorage.getItem("email")
+        .then(value => {
+            if (value != null) {
+                setEmail(JSON.parse(value))
+            }
+        })
+    } catch (error){
+        console.log(error);
+    }
+}
 
  const AddFoodScreen =  () => {
 
@@ -16,13 +31,14 @@ export default function Foodtruck({ navigation, ...props}) {
   // alert("We are goin here to the next page of navigation add  food truck");
  }
 
-
-var tempdata = []
+ var tempdata = []
+ 
 useEffect((isAdmin = true) => {
+  getData();
   let firebaseCollection = firebase.firestore().collection("resturant")
     
   if (isAdmin) { 
-      firebaseCollection = firebaseCollection.where("remail", "==", "hamburger@gmail.com")
+      firebaseCollection = firebaseCollection.where("remail", "==", email)
   } 
   
   firebaseCollection.onSnapshot(snapshot => {
@@ -31,17 +47,21 @@ useEffect((isAdmin = true) => {
       })
       setFoodTruck(tempdata);
       })
-}, [])
+}, [email])
 
   return (
     <View>
     <View style={{ alignItems:"center" }}>
-    <Button
+    <>
+    {(isAdmin == true) ?
+      <Button
     Press={AddFoodScreen}
     bgColor="red"
     btnLabel="Add food Truck"
     textColor= "white"
   />
+:""}
+</>
   </View>
   <ScrollView>
   <View
@@ -96,7 +116,8 @@ useEffect((isAdmin = true) => {
    
     </TouchableOpacity>
     </>
-    ):""
+    ):
+    <Text>You Have No Food Trucks</Text>
   }
 
 

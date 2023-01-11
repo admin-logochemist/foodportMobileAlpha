@@ -1,13 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, Modal, StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
 import OrderItem from "./OrderItem";
 import firebase from "../../firebase";
 import LottieView from "lottie-react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function ViewCart({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState('');
+
+
+  const getData = () => {
+    try {
+        AsyncStorage.getItem("email")
+        .then(value => {
+            if (value != null) {
+                setEmail(JSON.parse(value))
+            }
+        })
+    } catch (error){
+        console.log(error);
+    }
+}
+
+useEffect(() => {
+
+  getData();
+
+}, [email])
 
   const { items, restaurantName } = useSelector(
     (state) => state.cartReducer.selectedItems
@@ -29,6 +51,7 @@ export default function ViewCart({ navigation }) {
       .add({
         items: items,
         restaurantName: restaurantName,
+        email: email,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       })
       .then(() => {

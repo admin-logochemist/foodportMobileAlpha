@@ -9,8 +9,10 @@ import firebase from '../../firebase.js';
 
 export default function FoodtruckDetail({ route, navigation}) {
     const [foods, setFood] = useState([])
+    const [isAdmin, setIsAdmin] = useState(true)
     let tempdata = []
 
+    
     useEffect(() => {
       firebase.firestore().collection("foodtest").where('id', '==', route.params.id)
       .onSnapshot(snapshot => {
@@ -37,11 +39,15 @@ export default function FoodtruckDetail({ route, navigation}) {
       <AboutFtruck route={route}/>
       <Divider width={1.8} style={{ marginVertical: 10 }} />
       <View style={{ alignItems:"center" }}>
+      <>
+      {(isAdmin == true) ? 
       <Button
       Press={AddFoodItems} 
       bgColor="red"
       btnLabel="Add food Item"
       textColor= "white" />
+      :""}
+      </>
       </View>
       <Fmenuitems restaurantName={route.params.name} foods={foods} />
       </ScrollView>
