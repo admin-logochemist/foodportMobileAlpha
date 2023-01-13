@@ -8,52 +8,68 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Orders() {
 
-  const [order, setOrder] = useState("");
-  const [items, setItems] = useState([]);
+  const [order, setOrder] = useState([]);
   const [email, setEmail] = useState('');
+  
 
+  
 
-console.log(items, "fsddggdgd")
-
+// let dataObj = {};
   const getData = () => {
+    // AsyncStorage.getAllKeys((err, keys) => {
+    //   AsyncStorage.multiGet(keys, (err, stores) => {
+    //     stores.map((result, i, store) => {
+    //       let key = store[i][0];
+    //       let value = store[i][1];
+    //       const toObject = Object.fromEntries(store);
+    //       console.log(toObject ,"fsgfsd")
+    //       console.log(result ,"fsgfsd")
+
+    //     });
+    //   });
+    // });
     try {
-        AsyncStorage.getItem("email")
-        .then(value => {
-            if (value != null) {
-                setEmail(JSON.parse(value))
-            }
-        })
-    } catch (error){
-        console.log(error);
-    }
+      AsyncStorage.getItem("email")
+      .then(value => {
+          if (value != null) {
+              setEmail(JSON.parse(value))
+          }
+      })
+  } catch (error){
+      console.log(error);
+  }
+
 }
 
 let tempdata =[];
-let zemitems = [];
 useEffect(() => {
   getData();
-  let firebaseCollection = firebase.firestore().collection("orders").where("email", "==", "hamburger@gmail.com")
+  
+  let firebaseCollection = firebase.firestore().collection("orders").where("email", "==", email)
   firebaseCollection.onSnapshot(snapshot => {
           snapshot.docs.map(doc => {
           tempdata.push(doc.data())
-          zemitems.push(doc.data().items)
-          // console.log(doc.data().items, "dsfsdfgfdsg")
         })
         setOrder(tempdata);
-        setItems(zemitems);
+       
       })
     }, [email])
 
+    const setDate = (dtObj) => {
+        return new Date(dtObj.seconds * 1000 + dtObj.nanoseconds/1000000).toString();
+    }
+
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+    // <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+    <ScrollView>
     <View style={{ 
-        height: 200,
+        height: 250,
         }}>
       <Image
-        style={{ height: 250, width:"60%", alignSelf: "center", marginTop: -30 }}
-        source={require("../assets/orders/dfdsfd.gif")}
+        style={{ height: 250, width:"100%", alignSelf: "center", }}
+        source={require("../assets/orders/Group_128.png")}
         autoPlay
-        speed={0.5}
+        speed={1.5}
         loop={false}
       />
       </View>
@@ -62,36 +78,57 @@ useEffect(() => {
         margin: 12,
         alignItems: "center",
         height: "100%",
+        
       }}
     >
-      <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-       Your orders are here
-      </Text>
-      <ScrollView>
-      {order?order.map((data, index) => 
-        <>
-      <Text>{data.email}</Text>
-      <View key={index} style={{ width: 210, marginLeft: 130, marginTop: 10, justifyContent: "space-evenly" }}>
-      <Text style={styles.titleStyle}>{data.restaurantName}</Text>
-      <Text>my description</Text>
-      <Text>123</Text>
+     {/* <Text style={{ fontSize: 30, fontWeight: "bold", marginTop:20, marginBottom:20, color:"red" }}>
+       Your Orders History
+    </Text> */}
+
+      {
+        order.map((_eachOrder, orderKey) =>
+            <>
+            <Text style={{
+              fontSize:16,
+               fontWeight:"bold",
+                backgroundColor:"red",
+                width: "100%",
+                textAlign:"center",
+                color:"white",
+                padding:10,
+                 marginTop:5,
+                 marginBottom:5,
+                   }}>{setDate(_eachOrder.createdAt).substring(0 , 25)}</Text>
+                {
+                    _eachOrder.items.map((_eachItem, itemKey) => 
+                        <>
+                            <View key={itemKey} style={{ width: 210, marginLeft: 130, marginTop: 10, justifyContent: "space-evenly" }}>
+                            <Text style={styles.titleStyle}>{_eachItem.restaurantName}</Text>
+                                <Text>{_eachItem.description}</Text>
+                                <Text>{_eachItem.price}$</Text>
+                            </View>
+                            <View>
+                            <Image
+                                source={{uri: _eachItem.image}}
+                                style={{
+                                width: 100,
+                                height: 100,
+                                borderRadius: 8,
+                                marginTop: -70,
+                                marginRight: 230,
+                                }}
+                            />
+                        </View>
+                        </>
+                    )
+                }
+            </>
+        )
+    }
+
     </View>
-    <View>
-    <Image
-      source={require("../assets/orders/dfdsfd.gif")}
-      style={{
-        width: 100,
-        height: 100,
-        borderRadius: 8,
-        marginTop: -70,
-      }}
-    />
-    </View>
-    </>
-   ):""}
-      </ScrollView>
-    </View>
-  </SafeAreaView>
+    </ScrollView>
+  // </SafeAreaView>
   )
 }
 

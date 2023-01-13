@@ -50,10 +50,16 @@ export default function Accounts({navigation}) {
 
     }, [email])
     
-const logout = () => {
-       AsyncStorage.clear();
+const logout = async () => {
+  try {
+    await AsyncStorage.clear();
+    console.log(AsyncStorage, "My storage is Empty")
+} catch (e) {
+    console.log('Failed to flash AsyncStorage.');
+}
           navigation.navigate("Auth")
 }
+
 const EditProfile = () => {
        navigation.navigate("Editaccounts")
 }

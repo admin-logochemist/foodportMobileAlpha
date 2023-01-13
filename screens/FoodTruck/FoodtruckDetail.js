@@ -6,15 +6,31 @@ import Fmenuitems from '../../components/foodtruck/Fmenuitems.js';
 import ViewCart from '../../components/restaurantDetail/ViewCart.js';
 import Button from '../../components/foodtruck/Button.js';
 import firebase from '../../firebase.js';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export default function FoodtruckDetail({ route, navigation}) {
     const [foods, setFood] = useState([])
-    const [isAdmin, setIsAdmin] = useState(true)
-    let tempdata = []
-
+    const [usertype, setUserType] = useState('');
     
+
+    const getData = () => {
+      try {
+        AsyncStorage.getItem("userType")
+        .then(valuez => {
+            if (valuez != null) {
+                setUserType(JSON.parse(valuez))
+            }
+        })
+      } catch (error){
+        console.log(error);
+      }
+  }
+    
+    let tempdata = [];
     useEffect(() => {
-      firebase.firestore().collection("foodtest").where('id', '==', route.params.id)
+      getData();
+      firebase.firestore().collection("food").where('id', '==', route.params.id)
       .onSnapshot(snapshot => {
               snapshot.docs.map(doc => {
               tempdata.push(doc.data())
@@ -40,7 +56,7 @@ export default function FoodtruckDetail({ route, navigation}) {
       <Divider width={1.8} style={{ marginVertical: 10 }} />
       <View style={{ alignItems:"center" }}>
       <>
-      {(isAdmin == true) ? 
+      {(usertype === "business") ? 
       <Button
       Press={AddFoodItems} 
       bgColor="red"
