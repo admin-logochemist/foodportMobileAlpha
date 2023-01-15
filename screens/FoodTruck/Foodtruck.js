@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Image, TouchableOpacity } from 'react-native'
+import { View, Text, ScrollView, Image, TouchableOpacity, StyleSheet } from 'react-native'
 import React, { useEffect, useState } from "react";
 import getFoodTruck from "../../apis/Foodtruckapi.js";
 import firebase from '../../firebase.js';
@@ -9,8 +9,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function Foodtruck({ navigation, ...props}) {
 
   const [foodtruck, setFoodTruck] = useState([]);
-  const [isAdmin, setIsAdmin] = useState(true);
+  // const [isAdmin, setIsAdmin] = useState('');
   const [email, setEmail] = useState('');
+  const [usertype, setUserType] = useState('');
 
   const getData = () => {
     try {
@@ -23,6 +24,16 @@ export default function Foodtruck({ navigation, ...props}) {
     } catch (error){
         console.log(error);
     }
+    try {
+      AsyncStorage.getItem("userType")
+      .then(valuez => {
+          if (valuez != null) {
+              setUserType(JSON.parse(valuez))
+          }
+      })
+    } catch (error){
+      console.log(error);
+    }
 }
 
  const AddFoodScreen =  () => {
@@ -33,11 +44,12 @@ export default function Foodtruck({ navigation, ...props}) {
 
  var tempdata = []
  
-useEffect((isAdmin = true) => {
+useEffect(() => {
   getData();
   let firebaseCollection = firebase.firestore().collection("resturant")
     
-  if (isAdmin) { 
+  if (usertype === "business") { 
+    console.log(usertype,"dsfadfgfghaassssssssssssssssss")
       firebaseCollection = firebaseCollection.where("remail", "==", email)
   } 
   
@@ -53,7 +65,7 @@ useEffect((isAdmin = true) => {
     <View>
     <View style={{ alignItems:"center" }}>
     <>
-    {(isAdmin == true) ?
+    {(usertype == "business") ?
       <Button
     Press={AddFoodScreen}
     bgColor="red"
@@ -72,7 +84,7 @@ useEffect((isAdmin = true) => {
       backgroundColor:"#F5F0ED",
       marginBottom:10,
       marginTop:10,
-      padding:10
+      padding:10,
     }}
   >
   {foodtruck!==undefined&&foodtruck!==null&&foodtruck!==''&&foodtruck.length>0?foodtruck.map((items)=> 
@@ -80,7 +92,7 @@ useEffect((isAdmin = true) => {
     <TouchableOpacity 
     key={items?.itemid}
         activeOpacity={1}
-        style={{ marginBottom: 30 }}
+        style={{marginBottom: 30}}
         onPress={() =>
           navigation.navigate("FoodtruckDetail", {
             name: items.resName,
@@ -94,7 +106,7 @@ useEffect((isAdmin = true) => {
           })
         }
     >
-    <View style={{alignItems:"center", width:350, backgroundColor:"white", padding:10, borderRadius:10, marginBottom: 10 }}>
+    <View style={styles.card}>
     <Image
       style={{ height: 200, width:"100%", alignSelf: "center", borderRadius: 10, marginTop: 10, marginBottom: 10 }}
       source={{ uri: items?.image }}
@@ -107,7 +119,7 @@ useEffect((isAdmin = true) => {
       justifyContent: "center",
       alignItems: "space-between",
     }}>
-    <Text style={{ color:"black", fontWeight:"bold", fontSize:18, textAlign:"center" }}>{items?.resName}</Text>
+    <Text style={{ color:"black", fontWeight:"bold", fontSize:18, textAlign:"center" }}>{items?.resName.substring(0 ,20)}</Text>
     <View style={{backgroundColor:"blue", borderRadius:15, padding: 6, marginLeft:16 }}>
     <Text style={{ color:"white", fontWeight:"bold", fontSize:13, textAlign:"center" }}>{items?.Trucktype}</Text>
     </View>
@@ -129,4 +141,25 @@ useEffect((isAdmin = true) => {
 
   )
 }
+
+const styles = StyleSheet.create({
+  card: {
+    alignItems:"center",
+     width:350,
+     backgroundColor:"white",
+      padding:10,
+        borderRadius:10,
+         marginBottom: 10,
+         shadowColor: "black",
+         shadowOffset: {
+           width: 0,
+           height: 2,
+       },
+       shadowOpacity: 0.75,
+       shadowRadius: 5.84,
+       
+       elevation: 5,
+  },
+
+});
   

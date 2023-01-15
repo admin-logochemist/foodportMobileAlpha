@@ -53,6 +53,7 @@ export default function BtabNav() {
     )
    }}/>
    <Tab.Screen name="Orders" component={Orders} options={{
+    headerShown:false,
     tabBarIcon: ({color , size}) => (
         <FontAwesome5 name="receipt" color={color} size={size} />
     )
