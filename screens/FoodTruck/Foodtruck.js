@@ -49,17 +49,16 @@ useEffect(() => {
   let firebaseCollection = firebase.firestore().collection("resturant")
     
   if (usertype === "business") { 
-    console.log(usertype,"dsfadfgfghaassssssssssssssssss")
       firebaseCollection = firebaseCollection.where("remail", "==", email)
   } 
-  
+
   firebaseCollection.onSnapshot(snapshot => {
           snapshot.docs.map(doc => {
           tempdata.push({...doc.data()})
       })
       setFoodTruck(tempdata);
       })
-}, [email])
+}, [usertype])
 
   return (
     <View>

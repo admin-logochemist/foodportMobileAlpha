@@ -80,7 +80,7 @@ export default function AddFoodItems(props) {
   // ==========================working here==========================
 
   const addFoodtruckItems = async () => {
-    firebase.firestore().collection("foodtest").add(
+    firebase.firestore().collection("food").add(
       {
         // accid: accid,
         category: category,

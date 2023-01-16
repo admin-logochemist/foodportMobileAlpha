@@ -22,15 +22,12 @@ export default function Login({ props, navigation }) {
   const [userdata, setUserdata] = useState('');
 
   const auth = firebase.auth();
-  const ForStorage =  () => {
-    if(userdata.length > 1)
-    try {
-   AsyncStorage.multiSet([['email', JSON.stringify(email)], ['userType', JSON.stringify(userdata?.select)]])
-  } catch (e) {
-    console.log('Failed to store data in AsyncStorage.');
-}
+  const ForStorage = async (key) => {
+    
+        await AsyncStorage.setItem( key='email' , JSON.stringify(email));
+        await AsyncStorage.setItem( key='userType' , JSON.stringify(userdata?.select))
+    //  await AsyncStorage.multiSet([['email', JSON.stringify(email)], ['userType', JSON.stringify(userdata?.select)]])
     navigation.navigate("BtabNav")
-
   }
 
   // =================working here====================
@@ -42,14 +39,8 @@ export default function Login({ props, navigation }) {
         tempdata = doc.data()
       })
       setUserdata(tempdata);
-
-      if(userdata.length > 1){
+      
       ForStorage();
-      }
-      else{
-        setUserdata(tempdata);
-        console.log(userdata , "my data is empty")
-      }
     
     })
 

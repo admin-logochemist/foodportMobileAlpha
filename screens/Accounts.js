@@ -38,26 +38,26 @@ export default function Accounts({navigation}) {
     
     useEffect(() => {
         getData();
-
+       
       let firebaseCollection = firebase.firestore().collection("userid")
-          firebaseCollection = firebaseCollection.where("email", "==", email.toLowerCase())
+       .where("email", "==", email.toLowerCase())
 
       firebaseCollection.onSnapshot(snapshot => {
               snapshot.docs.map(doc => {
             setAccount(doc.data());
           })
           })
-
+          
+    
     }, [email])
     
 const logout = async () => {
   try {
     await AsyncStorage.clear();
-    console.log(AsyncStorage, "My storage is Empty")
 } catch (e) {
     console.log('Failed to flash AsyncStorage.');
 }
-          navigation.navigate("Auth")
+     navigation.navigate("Auth")
 }
 
 const EditProfile = () => {
