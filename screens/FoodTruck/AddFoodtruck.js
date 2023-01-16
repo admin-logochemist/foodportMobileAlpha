@@ -1,10 +1,11 @@
-import { View, Text, SafeAreaView, ScrollView, Image,  StyleSheet } from "react-native";
+import { View, Text, SafeAreaView, ScrollView, Image,  StyleSheet, Button } from "react-native";
 import React, { useState } from 'react';
 import firebase from 'firebase/compat/app';
 import Loader from '../../components/foodtruck/Loader.js';
 import Input from '../../components/foodtruck/Input.js';
-import Button from '../../components/foodtruck/Button.js';
+import Buttonz from '../../components/foodtruck/Button.js';
 import RNPickerSelect from 'react-native-picker-select';
+import * as ImagePicker from 'expo-image-picker';
 
 
 export default function AddFoodtruck({navigation}) {
@@ -27,8 +28,30 @@ export default function AddFoodtruck({navigation}) {
   const [about, setAbout] = useState("");
   const [city, setCity] = useState("");
 
+  const [image, setImage] = useState(null);
+  const [imageUrl, setImageUrl] = useState(null);
+  // const [image, setImage] = useState(null);
+  // ==========================working here==========================
+  //     console.log(image);
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  };
+
 
   const addFoodtruck = () => {
+    setLoading(true)
     firebase.firestore().collection("resturant").add(
       {
         remail: "hamburger@gmail.com",
@@ -66,7 +89,7 @@ export default function AddFoodtruck({navigation}) {
         SatTime: SatTime,
         Suntime: Suntime,
         About: about,
-         // image:image,
+         image:image,
          time: firebase.firestore.FieldValue.serverTimestamp(),
           });
         })
@@ -162,9 +185,14 @@ export default function AddFoodtruck({navigation}) {
           placeholder="About"
         />
 
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Button title="Pick an image from camera roll" onPress={pickImage} />
+        {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+      </View>
+
 
         <View style={{alignItems:"center"}}>
-        <Button bgColor="red" btnLabel="Add" textColor="white" Press={() => addFoodtruck()} />
+        <Buttonz bgColor="red" btnLabel="Add" textColor="white" Press={() => addFoodtruck()} />
         </View>
         <Text
           onPress={() => navigation.navigate('FoodTruck')}

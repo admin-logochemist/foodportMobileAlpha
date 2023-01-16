@@ -49,7 +49,8 @@ useEffect(() => {
   let firebaseCollection = firebase.firestore().collection("resturant")
     
   if (usertype === "business") { 
-      firebaseCollection = firebaseCollection.where("remail", "==", email)
+      // firebaseCollection = firebaseCollection.where("remail", "==", email)
+      firebaseCollection = firebaseCollection.where("remail", "==", "hamburger@gmail.com")
   } 
 
   firebaseCollection.onSnapshot(snapshot => {
