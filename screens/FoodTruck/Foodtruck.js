@@ -5,15 +5,42 @@ import firebase from '../../firebase.js';
 import { Tooltip, Badge, Divider } from "react-native-elements";
 import Button from "../../components/foodtruck/Button.js"
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Location from 'expo-location';
+import MapView from 'react-native-maps';
 
 export default function Foodtruck({ navigation, ...props}) {
+
+
+
+
+ 
 
   const [foodtruck, setFoodTruck] = useState([]);
   // const [isAdmin, setIsAdmin] = useState('');
   const [email, setEmail] = useState('');
   const [usertype, setUserType] = useState('');
 
-  const getData = () => {
+
+  const getLocation = async () => {
+    const { status } = await Location.requestPermissionsAsync();
+    if (status !== 'granted') {
+      console.log('Permission to access location was denied');
+    }
+    try {
+
+      const subscription = await Location.watchPositionAsync({}, (location) => {
+        console.log(location.coords.latitude);
+        // subscription.remove();
+    });
+
+    } catch (error){
+        console.log(error);
+    }
+    
+  }
+
+  const getData = async () => {
+
     try {
         AsyncStorage.getItem("email")
         .then(value => {
@@ -45,23 +72,26 @@ export default function Foodtruck({ navigation, ...props}) {
  var tempdata = []
  
 useEffect(() => {
+  getLocation();
   getData();
   let firebaseCollection = firebase.firestore().collection("resturant")
     
   if (usertype === "business") { 
-      // firebaseCollection = firebaseCollection.where("remail", "==", email)
-      firebaseCollection = firebaseCollection.where("remail", "==", "hamburger@gmail.com")
+      firebaseCollection = firebaseCollection.where("remail", "==" , email)
+     
   } 
 
   firebaseCollection.onSnapshot(snapshot => {
           snapshot.docs.map(doc => {
           tempdata.push({...doc.data()})
+
       })
       setFoodTruck(tempdata);
       })
 }, [usertype])
 
   return (
+   
     <View>
     <View style={{ alignItems:"center" }}>
     <>
