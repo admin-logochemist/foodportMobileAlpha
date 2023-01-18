@@ -9,6 +9,7 @@ import {
     FlatList,
     Pressable,
     ImageBackground,
+    Platform,
   } from 'react-native';
   import { Card, Icon } from 'react-native-elements'
   import React , { useState, useEffect } from 'react';

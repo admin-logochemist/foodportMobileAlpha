@@ -47,7 +47,7 @@ export default function BtabNav() {
     )
    }}/>
    <Tab.Screen name="FoodTruck" component={FoodTruck} options={{
-    // headerShown:false,
+    headerShown:false,
     tabBarIcon: ({color , size}) => (
         <FontAwesome5 name="truck" color={color} size={size} />
     )

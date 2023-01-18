@@ -7,6 +7,7 @@ import Button from "../../components/foodtruck/Button.js"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Location from 'expo-location';
 import MapView from 'react-native-maps';
+import SearchBar from '../../components/foodtruck/SearchBar.js'
 
 export default function Foodtruck({ navigation, ...props}) {
 
@@ -19,6 +20,26 @@ export default function Foodtruck({ navigation, ...props}) {
   // const [isAdmin, setIsAdmin] = useState('');
   const [email, setEmail] = useState('');
   const [usertype, setUserType] = useState('');
+  const [loc, setLoc] = useState();
+  const [myloc, setMyLoc] = useState("US");
+
+  console.log(loc);
+  
+  
+  const GetGeoLoc =  (location) => {
+    
+    let url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + location.coords.latitude + ',' + location.coords.longitude + '&key=AIzaSyB5KZy-WiNvS_l7AjO-lV-eNdSaPBVLuyg';
+
+    return fetch(url)
+    .then((res) => res.json())
+    .then(json => 
+    //  console.log(json['plus_code']['compound_code'], "We are here")
+    //  console.log(json['result'], "hereeeeeeeeeeeeeeeeeeeeee")
+     setMyLoc(json['plus_code']['compound_code'])
+      
+      );
+  };
+    
 
 
   const getLocation = async () => {
@@ -29,13 +50,16 @@ export default function Foodtruck({ navigation, ...props}) {
     try {
 
       const subscription = await Location.watchPositionAsync({}, (location) => {
-        console.log(location.coords.latitude);
+        // console.log(location);
+        setLoc(location);
+        GetGeoLoc(location);
         // subscription.remove();
     });
 
     } catch (error){
         console.log(error);
     }
+
     
   }
 
@@ -93,7 +117,10 @@ useEffect(() => {
   return (
    
     <View>
-    <View style={{ alignItems:"center" }}>
+    
+    <View style={{ alignItems:"center", marginTop:30 }}>
+    <Text>{myloc}</Text>
+    <SearchBar  />
     <>
     {(usertype == "business") ?
       <Button
