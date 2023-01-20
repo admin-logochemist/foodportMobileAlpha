@@ -11,23 +11,28 @@ import SearchBar from '../../components/foodtruck/SearchBar.js'
 
 export default function Foodtruck({ navigation, ...props}) {
 
-
-
-
  
 
   const [foodtruck, setFoodTruck] = useState([]);
-  // const [isAdmin, setIsAdmin] = useState('');
   const [email, setEmail] = useState('');
   const [usertype, setUserType] = useState('');
+
   const [loc, setLoc] = useState();
   const [myloc, setMyLoc] = useState("US");
+  const [city , setCity]= useState("San Francisco");
+ 
 
-  console.log(loc);
-  
+  const [search, setSearch] = useState('');
+ 
+
+  const getSearchValue = (searchFieldValue) => {
+    setSearch(searchFieldValue)
+  // console.log(search);
+  // console.log(foodtruck[1].resName);
+
+ }
   
   const GetGeoLoc =  (location) => {
-    
     let url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + location.coords.latitude + ',' + location.coords.longitude + '&key=AIzaSyB5KZy-WiNvS_l7AjO-lV-eNdSaPBVLuyg';
 
     return fetch(url)
@@ -39,8 +44,6 @@ export default function Foodtruck({ navigation, ...props}) {
       
       );
   };
-    
-
 
   const getLocation = async () => {
     const { status } = await Location.requestPermissionsAsync();
@@ -117,10 +120,9 @@ useEffect(() => {
   return (
    
     <View>
-    
-    <View style={{ alignItems:"center", marginTop:30 }}>
-    <Text>{myloc}</Text>
-    <SearchBar  />
+    <View style={{ alignItems:"center",  backgroundColor: "#C0C0C0"}}>
+    <Text style={{fontSize:14, marginTop:50, fontWeight:"bold", color:"black" }}>{myloc}</Text>
+    <SearchBar getSearchValue={getSearchValue} />
     <>
     {(usertype == "business") ?
       <Button
@@ -144,7 +146,11 @@ useEffect(() => {
       padding:10,
     }}
   >
-  {foodtruck!==undefined&&foodtruck!==null&&foodtruck!==''&&foodtruck.length>0?foodtruck.map((items)=> 
+  {foodtruck!==undefined&&foodtruck!==null&&foodtruck!==''&&foodtruck.length>0?foodtruck
+  .filter((item) =>
+  item.resName.toLowerCase().includes(search.toLowerCase())
+)
+  .map((items)=> 
     <>
     <TouchableOpacity 
     key={items?.itemid}

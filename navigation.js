@@ -14,6 +14,7 @@ import AddFoodTruck from './screens/FoodTruck/AddFoodtruck.js';
 import FoodtruckDetail from './screens/FoodTruck/FoodtruckDetail.js';
 import AddFoodItems from './screens/FoodTruck/AddFoodItems.js';
 import Editaccounts from './screens/Editaccounts.js';
+import StripeCard from './screens/StripeCard.js';
 
 
 const store = configureStore();
@@ -41,6 +42,7 @@ export default function RootNavigation() {
           <Stack.Screen name="FoodtruckDetail" component={FoodtruckDetail} />
           <Stack.Screen name="AddFoodItems" component={AddFoodItems} />
           <Stack.Screen name="Editaccounts" component={Editaccounts} />
+          <Stack.Screen name="StripeCard" component={StripeCard} />
         </Stack.Navigator>
       </NavigationContainer>
     </ReduxProvider>
