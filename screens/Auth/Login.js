@@ -25,7 +25,7 @@ export default function Login({ props, navigation }) {
   const ForStorage = async (key) => {
     
         await AsyncStorage.setItem( key='email' , JSON.stringify(email));
-        await AsyncStorage.setItem( key='userType' , JSON.stringify(userdata?.select))
+        await AsyncStorage.setItem( key='userType' , JSON.stringify(userdata?.select));
     //  await AsyncStorage.multiSet([['email', JSON.stringify(email)], ['userType', JSON.stringify(userdata?.select)]])
     navigation.navigate("BtabNav")
   }

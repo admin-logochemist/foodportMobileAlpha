@@ -11,13 +11,16 @@ import BottomTabs from '../components/home/BottomTabs';
 // import BtabNav from '../BtabNav';
 
 
+
+
 const YELP_API_KEY = 
 "UH0b5_Rg0sAsm0MhK1j2RrnbN50AYdl1mtHyVIH6bAXSMVt6nW8Diwq-ezlmTzP4mVs6qc57fex3nG-72oBlmQq8y0xF92MMDEzzCjHKbJGcXERAl1ClaI04reWIY3Yx"
 
 
-export default function Home({ navigation }) {
+export default function  Home({ navigation }) {
   const [restaurantData, setRestaurantData] = React.useState(localRestaurants)
   
+  // console.log(restaurantData);
   const [city , setCity]= useState("San Francisco");
 
   const [activeTab , setActiveTab]= useState("Delivery");
