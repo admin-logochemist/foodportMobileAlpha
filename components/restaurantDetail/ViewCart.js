@@ -44,23 +44,41 @@ useEffect(() => {
     currency: "USD",
   });
 
-  const addOrderToFireBase = () => {
+  // const addOrderToFireBase = () => {
+  //   setLoading(true);
+  //   const db = firebase.firestore();
+  //   db.collection("orders")
+  //     .add({
+  //       items: items,
+  //       restaurantName: restaurantName,
+  //       email: email,
+  //       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+  //     })
+  //     .then(() => {
+  //       setTimeout(() => {
+  //         setLoading(false);
+  //         navigation.navigate("OrderCompleted");
+  //       }, 2500);
+  //     });
+  // };
+
+  const addOrderToStripe = () => {
+
     setLoading(true);
-    const db = firebase.firestore();
-    db.collection("orders")
-      .add({
-        items: items,
-        restaurantName: restaurantName,
-        email: email,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      })
-      .then(() => {
-        setTimeout(() => {
-          setLoading(false);
-          navigation.navigate("OrderCompleted");
-        }, 2500);
-      });
-  };
+    const Mynavigation = () => {
+            setTimeout(() => {
+              setLoading(false);
+              navigation.navigate("StripeCard", {
+                items: items,
+                 restaurantName: restaurantName,
+                 email: email,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+              });
+            }, 2500);
+          };
+
+      Mynavigation();
+  }
 
   const styles = StyleSheet.create({
     modalContainer: {
@@ -122,7 +140,8 @@ useEffect(() => {
                   position: "relative",
                 }}
                 onPress={() => {
-                  addOrderToFireBase();
+                  // addOrderToFireBase();
+                  addOrderToStripe();
                   setModalVisible(false);
                 }}
               >

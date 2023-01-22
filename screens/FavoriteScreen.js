@@ -1,70 +1,147 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image} from 'react-native'
 import React , { useState, useEffect} from 'react';
-import * as Location from 'expo-location';
-import MapView, { Marker } from 'react-native-maps';
+import firebase from '../firebase.js';
+import { Tooltip, Badge, Divider } from "react-native-elements";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function FavoriteScreen() {
+export default function FavoriteScreen({ navigation, ...props}) {
 
-   const [loc , setLoc] = useState();
-console.log(loc, 'dsujnfslkjhfsdfkjjfsdjk')
+  const [favourites , setFavourites] = useState([]);
+  const [email, setEmail] = useState('');
 
-  const getLocation = async () => {
-    const { status } = await Location.requestPermissionsAsync();
-    if (status !== 'granted') {
-      console.log('Permission to access location was denied');
-    }
+  console.log(favourites , "we are here");
+
+  
+  const getData = async () => {
+
     try {
-      const subscription = await Location.watchPositionAsync({}, (location) => {
-        // console.log(location ,'sdfgfsdsdsssssssssssssss');
-        // subscription.remove();
-        setLoc(location);
-    });
-
+        AsyncStorage.getItem("email")
+        .then(value => {
+            if (value != null) {
+                setEmail(JSON.parse(value))
+            }
+        })
     } catch (error){
         console.log(error);
     }
-    
-  }
+    // try {
+    //   AsyncStorage.getItem("userType")
+    //   .then(valuez => {
+    //       if (valuez != null) {
+    //           setUserType(JSON.parse(valuez))
+    //       }
+    //   })
+    // } catch (error){
+    //   console.log(error);
+    // }
+}
 
-useEffect(() => {
-  getLocation();
+var tempdata = []
+  useEffect(() => {
 
-}, [])
-
-
+    getData();
+    let firebaseCollection = firebase.firestore().collection("resturant").where("remail", "==" , email)
+  
+    firebaseCollection.onSnapshot(snapshot => {
+            snapshot.docs.map(doc => {
+            tempdata.push({...doc.data()})
+        })
+        setFavourites(tempdata);
+        })
+  }, [])
+  
 
   return (
-    
-    <View>
-    <MapView
-      style={styles.mapStyle}
-      initialRegion={loc}
+
+  <View>
+  <ScrollView>
+  <View
+    style={{
+      // margin: 15,
+      alignItems: "center",
+      height: "100%",
+      backgroundColor:"#F5F0ED",
+      marginBottom:10,
+      marginTop:10,
+      padding:10,
+    }}
+  >
+  {favourites!==undefined&&favourites!==null&&favourites!==''&&favourites.length>0?favourites
+//   .filter((item) =>
+//   item.resName.toLowerCase().includes(search.toLowerCase())
+// )
+  .map((items)=> 
+    <>
+    <TouchableOpacity 
+        key={items?.itemid}
+        activeOpacity={1}
+        style={{ marginBottom: 30 }}
+        onPress={() =>
+          navigation.navigate("FoodtruckDetail", {
+            name: items.resName,
+            address: items.address,
+            cusine: items.cusine,
+            phone: items.phone,
+            image: items.image,
+            about: items.About,
+            id: items.itemid,
+            remail: items.remail,
+          })
+        }
     >
-    <Marker
-        coordinate={{
-          latitude: loc?.coords.latitude,
-          longitude: loc?.coords.longitude,
-        }}
-        title={"You are here"}
-        description={"Marker Description"}
-        style={styles.markerStyle}
-      >
-      </Marker>
-    </MapView>
+    <View style={styles.card}>
+    <Image
+      style={{ height: 200, width:"100%", alignSelf: "center", borderRadius: 10, marginTop: 10, marginBottom: 10 }}
+      source={{ uri: items?.image }}
+      autoPlay
+      speed={0.5}
+      loop={false}
+      />
+     <View style={{
+      flexDirection: "row",
+      justifyContent: "center",
+      alignItems: "space-between",
+    }}>
+    <Text style={{ color:"black", fontWeight:"bold", fontSize:18, textAlign:"center" }}>{items?.resName.substring(0 ,20)}</Text>
+    <View style={{backgroundColor:"blue", borderRadius:15, padding: 6, marginLeft:16 }}>
+    <Text style={{ color:"white", fontWeight:"bold", fontSize:13, textAlign:"center" }}>{items?.Trucktype}</Text>
     </View>
+    </View>
+    </View>
+   
+    </TouchableOpacity>
+    </>
+    ):
+    <Text>You Have No Food Trucks</Text>
+  }
+
+
+    <Divider width={10} color={'red'} />
+  </View>
+  </ScrollView>
+
+    </View>
+
   )
 }
+
 const styles = StyleSheet.create({
-  mapStyle: {
-    width: '100%',
-    height: '100%',
+  card: {
+    alignItems:"center",
+     width:350,
+     backgroundColor:"white",
+      padding:10,
+        borderRadius:10,
+         marginBottom: 10,
+         shadowColor: "black",
+         shadowOffset: {
+           width: 0,
+           height: 2,
+       },
+       shadowOpacity: 0.75,
+       shadowRadius: 5.84,
+       
+       elevation: 5,
   },
-  markerStyle: {
-    backgroundColor: 'red',
-    width: 90,
-    height: 90,
-    borderRadius: 25,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+
 });

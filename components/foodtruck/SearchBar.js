@@ -1,64 +1,68 @@
-import { View, Text } from 'react-native';
-import React from 'react';
+import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import AntDesign from "react-native-vector-icons/AntDesign";
 
 
-export default function SearchBar({ cityHandler }) {
+const SearchBar = ({getSearchValue}) => {
+
+  // console.log(getSearchValue)
+  
+  const [searchText, setSearchText] = useState('');
+
   return (
-    <View style={{marginTop:10, flexDirection:'row'}}>
-     <GooglePlacesAutocomplete
-     query={{ key: "AIzaSyB5KZy-WiNvS_l7AjO-lV-eNdSaPBVLuyg" }}
+    <View style={{marginTop:10, flexDirection:'row', padding:10}}>
+
+    <View style={{ 
+    backgroundColor: "#E0E0E0",
+    borderRadius: 50,
+    flexDirection: "row",
+    alignItems: "center",
+    marginLeft:10,
+    marginRight:10,
+    }}>
+    <View style={{ width:"16%", padding:10 }}>
+    <View style={{ marginLeft: 10 }}>
+    <Ionicons name="restaurant" size={27} />
+  </View>
+    </View>
+    <TextInput
+    style={{ 
+      width:"66%",
+    borderRadius: 20,
+    fontWeight: "700",
+    marginTop: 7,
+    borderColor:"black"
+  }}
+    placeholder="Search..."
+    value={searchText}
+    onChangeText={text => setSearchText(text)}
+  />
+  <TouchableOpacity
+  onPress={() => getSearchValue(searchText) }
+  style={{
+    flexDirection: "row",
+    backgroundColor: "black",
+    padding: 9,
+    borderRadius: 30,
+    alignItems: "center",
+    width:"25%",
+    right:30,
     
-     onPress={(data, details = null) => {
-        console.log(data.description);
-        const city = data.description.split(",")[0];
-        cityHandler(city);
-
-     }}
-
-     placeholder='Search Your Resturant Here'
-     styles={{
-       textInput: {
-         backgroundColor: "#eee",
-         borderRadius: 20,
-         fontWeight: "700",
-         marginTop: 7,
-       },
-       textInputContainer: {
-         backgroundColor: "#eee",
-         borderRadius: 50,
-         flexDirection: "row",
-         alignItems: "center",
-         marginRight: 10,
-       },
-     }}
-     renderLeftButton={() => (
-       <View style={{ marginLeft: 10 }}>
-         <Ionicons name="location-sharp" size={24} />
-       </View>
-     )}
-     renderRightButton={() => (
-       <View
-         style={{
-           flexDirection: "row",
-           marginRight: 8,
-           backgroundColor: "white",
-           padding: 9,
-           borderRadius: 30,
-           alignItems: "center",
-         }}
-       >
-         <AntDesign
-           name="clockcircle"
-           size={11}
-           style={{ marginRight: 8 }}
-         />
-         <Text>Search</Text>
-       </View>
-     )}
-   />
- </View>
+  }}
+>
+  <Ionicons
+    // name="search",
+    name="pizza"
+    size={18}
+    style={{ marginRight: 4, color:"red" }}
+  />
+  <Text style={{color:"white", fontWeight:"bold"}}>Search</Text>
+    </TouchableOpacity>
+  </View>
+    </View>
 );
 }
+
+export default SearchBar;
