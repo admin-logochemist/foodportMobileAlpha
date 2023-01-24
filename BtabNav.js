@@ -11,6 +11,7 @@ import Cart from './screens/Cart';
 import Auth from './screens/Auth/Auth';
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import { useSelector } from "react-redux";
+import Map from './screens/Map/Map';
 
 
 
@@ -50,6 +51,12 @@ export default function BtabNav() {
     headerShown:false,
     tabBarIcon: ({color , size}) => (
         <FontAwesome5 name="truck" color={color} size={size} />
+    )
+   }}/>
+   <Tab.Screen name="Map" component={Map} options={{
+    headerShown:false,
+    tabBarIcon: ({color , size}) => (
+        <FontAwesome5 name="map" color={color} size={size} />
     )
    }}/>
    <Tab.Screen name="Orders" component={Orders} options={{

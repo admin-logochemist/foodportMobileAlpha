@@ -29,7 +29,6 @@ export default function Foodtruck({ navigation, ...props}) {
     setSearch(searchFieldValue)
   // console.log(search);
   // console.log(foodtruck[1].resName);
-
  }
   
   const GetGeoLoc =  (location) => {
@@ -38,15 +37,12 @@ export default function Foodtruck({ navigation, ...props}) {
     return fetch(url)
     .then((res) => res.json())
     .then(json => 
-    //  console.log(json['plus_code']['compound_code'], "We are here")
-    //  console.log(json['result'], "hereeeeeeeeeeeeeeeeeeeeee")
-     setMyLoc(json['plus_code']['compound_code'])
-      
+        setMyLoc(json['plus_code']['compound_code'])
       );
   };
 
   const getLocation = async () => {
-    const { status } = await Location.requestPermissionsAsync();
+    const { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== 'granted') {
       console.log('Permission to access location was denied');
     }
@@ -62,8 +58,6 @@ export default function Foodtruck({ navigation, ...props}) {
     } catch (error){
         console.log(error);
     }
-
-    
   }
 
   const getData = async () => {
