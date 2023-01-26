@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity, Switch, StyleSheet } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { Divider } from "react-native-elements";
 import AboutFtruck from "../../components/foodtruck/AboutFtruck.js";
@@ -10,10 +10,16 @@ import * as Location from "expo-location";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import MapView, { Marker } from "react-native-maps";
 import MapViewDirections from 'react-native-maps-directions';
-
+import Ionicons from "react-native-vector-icons/Ionicons";
+import AntDesign from "react-native-vector-icons/AntDesign";
 
 
 export default function FoodtruckDetail({ route, navigation }) {
+
+  const [isEnabled, setIsEnabled] = useState(true);
+  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+
+
   const [foods, setFood] = useState([]);
   const [usertype, setUserType] = useState("");
   const [email, setEmail] = useState("");
@@ -142,23 +148,38 @@ export default function FoodtruckDetail({ route, navigation }) {
     <>
       <ScrollView>
         <AboutFtruck route={route} />
-        <TouchableOpacity 
+        <View style={{marginTop:15}}>
+        <TouchableOpacity
+        style={{flexDirection:"row",  marginLeft:"2%",}} 
         onPress={ForLocation}
-        ><Text 
+        >
+        <Ionicons color="red" name="location-sharp" size={24} />
+        <Text 
         style={{ 
           textAlign: "center",
          fontWeight:"bold",
-         marginTop:20,
+        //  marginTop:20,
          color:"green",
          fontSize:20,
          }}>
          Click For Location
          </Text>
+         <View style={styles.container}>
+         <Text>Online</Text>
+       <Switch
+        trackColor={{false: 'red', true: 'green'}}
+        thumbColor={isEnabled ? 'lightgreen' : '#f4f3f4'}
+        ios_backgroundColor="#3e3e3e"
+        onValueChange={toggleSwitch}
+        value={isEnabled}
+      />
+    </View>
          </TouchableOpacity>
+         </View>
 
         <Divider width={1.8} style={{ marginVertical: 10 }} />
         <View style={{ alignItems: "center" }}>
-          <View style={{ width: "100%", height: 400, padding: 10 }}>
+      {/*    <View style={{ width: "100%", height: 400, padding: 10 }}>
             {showMap ? (
               <MapView
                 style={{ width: "100%", height: "100%" }}
@@ -213,7 +234,7 @@ export default function FoodtruckDetail({ route, navigation }) {
             ) : (
               <></>
             )}
-          </View>
+            </View> */}
           <>
             {usertype === "business" ? (
               <Button
@@ -233,3 +254,13 @@ export default function FoodtruckDetail({ route, navigation }) {
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop:-15,
+    marginLeft:"9%",
+  },
+});

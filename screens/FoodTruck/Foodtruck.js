@@ -115,7 +115,7 @@ export default function Foodtruck({ navigation, ...props }) {
               color: "black",
             }}
           >
-            {myloc}
+            {myloc.substring(0 , 45)}...
           </Text>
           <SearchBar getSearchValue={getSearchValue} />
           <>
