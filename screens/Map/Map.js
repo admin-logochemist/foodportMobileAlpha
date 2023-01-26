@@ -13,7 +13,7 @@ export default function Map({ navigation, ...props }) {
   const [distance, setDistance] = useState(0);
   const [duration, setDuration] = useState(0);
   const GOOGLE_MAPS_APIKEY = "AIzaSyB5KZy-WiNvS_l7AjO-lV-eNdSaPBVLuyg";
-  var mapView = null;
+  var mapView = "";
 
   const getLocation = async () => {
     try {
@@ -85,14 +85,16 @@ export default function Map({ navigation, ...props }) {
               setDistance(result.distance);
               setDuration(result.duration);
 
-              mapView.fitToCoordinates(result.coordinates, {
-                edgePadding: {
-                  right: 100 / 20,
-                  bottom: 100 / 20,
-                  left: 100 / 20,
-                  top: 100 / 20,
-                },
-              });
+              if (mapView) {
+                  mapView.fitToCoordinates(result.coordinates, {
+                    edgePadding: {
+                      right: 100 / 20,
+                      bottom: 100 / 20,
+                      left: 100 / 20,
+                      top: 100 / 20,
+                    },
+                  });
+              }
             }}
           />
           {markers.map((mk, i) => (

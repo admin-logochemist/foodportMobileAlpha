@@ -23,7 +23,7 @@ export default function FoodtruckDetail({ route, navigation }) {
   const origin = {latitude: 25.0159198, longitude: 67.1294916};
     const destination = {latitude: 24.895118240675693, longitude: 67.11689262666305};
     const GOOGLE_MAPS_APIKEY = 'AIzaSyB5KZy-WiNvS_l7AjO-lV-eNdSaPBVLuyg';
-    var mapView = null;
+    var mapView = "";
 
   const getData = () => {
     try {
@@ -159,14 +159,16 @@ export default function FoodtruckDetail({ route, navigation }) {
                         setDistance(result.distance);
                         setDuration(result.duration);
                         
-                        mapView.fitToCoordinates(result.coordinates, {
-                          edgePadding: {
-                            right: (100 / 20),
-                            bottom: (100 / 20),
-                            left: (100 / 20),
-                            top: (100 / 20),
-                          }
-                        });
+                        if (mapView) {
+                            mapView.fitToCoordinates(result.coordinates, {
+                              edgePadding: {
+                                right: 100 / 20,
+                                bottom: 100 / 20,
+                                left: 100 / 20,
+                                top: 100 / 20,
+                              },
+                            });
+                        }
                       }}
                 />
                 <Marker
