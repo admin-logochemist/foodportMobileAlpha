@@ -71,7 +71,6 @@ export default function FoodtruckDetail({ route, navigation }) {
           {},
           async (location) => {
             const { latitude, longitude } = location.coords;
-
             let thisMarkerID = null;
 
             db.collection("mapmarkers")
