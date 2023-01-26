@@ -1,4 +1,4 @@
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { Divider } from "react-native-elements";
 import AboutFtruck from "../../components/foodtruck/AboutFtruck.js";
@@ -9,6 +9,8 @@ import firebase from "../../firebase.js";
 import * as Location from "expo-location";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import MapView, { Marker } from "react-native-maps";
+
+
 
 export default function FoodtruckDetail({ route, navigation }) {
   const [foods, setFood] = useState([]);
@@ -34,7 +36,7 @@ export default function FoodtruckDetail({ route, navigation }) {
               setLat(_newData.latitude);
               setLong(_newData.longitude);
               if (JSON.parse(valuez) === "business") {
-                shouldUpdateLocation();
+                // shouldUpdateLocation();
               }
               setShowMap(true);
             });
@@ -96,7 +98,7 @@ export default function FoodtruckDetail({ route, navigation }) {
       } catch (error) {
         console.log(error);
       }
-    }, 5000);
+    }, 20000);
   }
 
   useEffect(() => {
@@ -119,10 +121,34 @@ export default function FoodtruckDetail({ route, navigation }) {
     });
   };
 
+  const ForLocation = () => {
+    navigation.navigate("Trucklocation",{
+      name: route.params.name,
+      lat: lat,
+      long: long,
+      about:route.params.about,
+      id: route.params.id,
+    })
+  }
+
   return (
     <>
       <ScrollView>
         <AboutFtruck route={route} />
+        <TouchableOpacity 
+        onPress={ForLocation}
+        ><Text 
+        style={{ 
+          textAlign: "center",
+         fontWeight:"bold",
+         marginTop:20,
+         color:"green",
+         fontSize:20,
+         }}>
+         Click For Location
+         </Text>
+         </TouchableOpacity>
+
         <Divider width={1.8} style={{ marginVertical: 10 }} />
         <View style={{ alignItems: "center" }}>
           <View style={{ width: "100%", height: 400, padding: 10 }}>
