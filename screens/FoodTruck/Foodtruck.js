@@ -5,16 +5,20 @@ import {
   Image,
   TouchableOpacity,
   StyleSheet,
+  Button,
+  Pressable,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import firebase from "../../firebase.js";
-import { Divider } from "react-native-elements";
-import Button from "../../components/foodtruck/Button.js";
+import { Divider, FAB } from "react-native-elements";
+import Buttonz from "../../components/foodtruck/Button.js";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Location from "expo-location";
 import SearchBar from "../../components/foodtruck/SearchBar.js";
 
 export default function Foodtruck({ navigation, ...props }) {
+
+
   const [foodtruck, setFoodTruck] = useState([]);
   const [email, setEmail] = useState("");
   const [usertype, setUserType] = useState("");
@@ -103,6 +107,10 @@ export default function Foodtruck({ navigation, ...props }) {
     });
   }, [usertype]);
 
+  const Mappage = () => {
+    navigation.navigate("Map")
+  }
+
   return (
     <>
       <View>
@@ -118,9 +126,16 @@ export default function Foodtruck({ navigation, ...props }) {
             {myloc.substring(0 , 45)}...
           </Text>
           <SearchBar getSearchValue={getSearchValue} />
+     <FAB
+        onPress={Mappage}
+        title="Navigate To trucks location"
+        upperCase
+        color="green"
+        icon={{ name: 'place', color: 'white' }}
+      />
           <>
             {usertype == "business" ? (
-              <Button
+              <Buttonz
                 Press={AddFoodScreen}
                 bgColor="red"
                 btnLabel="Add food Truck"

@@ -75,7 +75,7 @@ export default function  Home({ navigation }) {
         navigation={navigation}
       />
     </ScrollView>
-    <Divider width={10} color={'red'} />
+    <Divider width={7} color={'red'} />
   {/*  <BottomTabs /> 
     <BtabNav />*/}
   </SafeAreaView>

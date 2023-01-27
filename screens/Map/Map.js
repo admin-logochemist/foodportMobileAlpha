@@ -1,9 +1,10 @@
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import React, { useEffect, useState, useRef } from "react";
 import firebase from "../../firebase.js";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import MapViewDirections from "react-native-maps-directions";
+import AntDesign from "react-native-vector-icons/AntDesign";
 
 export default function Map({ navigation, ...props }) {
   const [markers, setMarkers] = useState([]);
@@ -58,6 +59,12 @@ export default function Map({ navigation, ...props }) {
 
   return (
     <>
+    <View style={{alignItems:"center", marginTop:40}}>
+          <TouchableOpacity style={{flexDirection: 'row'}} onPress={() => navigation.goBack()}>
+          <AntDesign name="back" size={37} />
+          <Text style={{fontSize:27, textAlign:"center"}}>GoBack</Text>
+          </TouchableOpacity>
+          </View>
       <View style={{ width: "100%", height: "100%" }}>
         <MapView
           style={{ width: "100%", height: "100%" }}
@@ -71,6 +78,8 @@ export default function Map({ navigation, ...props }) {
           showsUserLocation={true}
           ref={(c) => (mapView = c)}
         >
+
+        
           <MapViewDirections
             origin={origin}
             destination={destination}
@@ -115,12 +124,15 @@ export default function Map({ navigation, ...props }) {
               }}
             />
           ))}
+
+          
           <View>
             <Text>
               distance: {distance.toFixed(2)} km - time: {duration.toFixed(0)}{" "}
               mins
             </Text>
           </View>
+          
         </MapView>
       </View>
     </>
