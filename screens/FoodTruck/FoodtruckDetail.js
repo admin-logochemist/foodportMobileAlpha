@@ -147,23 +147,24 @@ export default function FoodtruckDetail({ route, navigation }) {
   return (
     <>
       <ScrollView>
-        <AboutFtruck route={route} />
-        <View style={{marginTop:15}}>
+      <AboutFtruck route={route} />
+      <>
+      <View style={{marginTop:15}}>
         <TouchableOpacity
         style={{flexDirection:"row",  marginLeft:"2%",}} 
         onPress={ForLocation}
         >
         <Ionicons color="red" name="location-sharp" size={24} />
         <Text 
-        style={{ 
+        style={{
           textAlign: "center",
          fontWeight:"bold",
-        //  marginTop:20,
          color:"green",
          fontSize:20,
          }}>
          Click For Location
          </Text>
+         {usertype === "business" ? (
          <View style={styles.container}>
          <Text>Online</Text>
        <Switch
@@ -173,9 +174,15 @@ export default function FoodtruckDetail({ route, navigation }) {
         onValueChange={toggleSwitch}
         value={isEnabled}
       />
+         
     </View>
-         </TouchableOpacity>
-         </View>
+    ) : (
+
+      ""
+      )}
+      </TouchableOpacity>
+      </View>
+      </>
 
         <Divider width={1.8} style={{ marginVertical: 10 }} />
         <View style={{ alignItems: "center" }}>

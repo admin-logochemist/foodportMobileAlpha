@@ -17,6 +17,8 @@ import Editaccounts from './screens/Editaccounts.js';
 import StripeCard from './screens/StripeCard.js';
 import Trucklocation from './screens/FoodTruck/Trucklocation.js';
 import Map from './screens/Map/Map';
+import AdvertImageUpload from './screens/Advertize/AdvertImageUpload.js';
+
 
 
 const store = configureStore();
@@ -47,6 +49,7 @@ export default function RootNavigation() {
           <Stack.Screen name="StripeCard" component={StripeCard} />
           <Stack.Screen name="Trucklocation" component={Trucklocation} />
           <Stack.Screen name="Map" component={Map} />
+          <Stack.Screen name="AdvertImageUpload" component={AdvertImageUpload} />
         </Stack.Navigator>
       </NavigationContainer>
     </ReduxProvider>

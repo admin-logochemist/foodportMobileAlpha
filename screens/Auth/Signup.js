@@ -99,7 +99,7 @@ export default function Signup({ props, navigation }) {
             usertype: select,
           }))
           try {
-            await AsyncStorage.multiSet([['email', JSON.stringify(email)], ['Alpha', 'MyUser']])
+            await AsyncStorage.multiSet([['email', JSON.stringify(email)], ['userType', JSON.stringify(select)]])
           } catch (error) {
             console.log(error);
           }

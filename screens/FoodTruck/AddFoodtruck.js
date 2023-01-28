@@ -50,8 +50,37 @@ export default function AddFoodtruck({navigation}) {
   };
 
 
+  const getFormData = () => {
+    if (
+      resName !== ''
+      && address !== ''
+      && cusine !== ''
+      && phone !== ''
+      && profile !== ''
+      && type !== ''
+      && montime !== ''
+      && tuetime !== ''
+      && Wedtime !== ''
+      && Thurtime !== ''
+      && Fritime !== ''
+      && SatTime !== ''
+      && Suntime !== ''
+      && about !== ''
+      && image !== ''
+    ) {
+      return true;
+    }
+    else {
+      console.log("invalid data")
+      return false;
+    }
+  }
+
+
   const addFoodtruck = () => {
-    setLoading(true)
+    
+    if (getFormData()){
+      setLoading(true)
     firebase.firestore().collection("resturant").add(
       {
         remail: "hamburger@gmail.com",
@@ -95,6 +124,13 @@ export default function AddFoodtruck({navigation}) {
         })
         navigation.navigate("BtabNav")
   }
+  else{
+    alert("Complete Empty Fields")
+  }
+}
+
+
+
 
   return (
     <SafeAreaView style={{backgroundColor: "white", flex: 1}}>
@@ -107,7 +143,7 @@ export default function AddFoodtruck({navigation}) {
       <Text style={{color: "grey", fontSize: 18, marginVertical: 10}}>
         Enter Your Food Truck Details
       </Text>
-      <View style={{marginVertical: 20}}>
+      <View style={{marginVertical: 20, marginBottom:400}}>
         <Input
         value={resName}
           onChangeText={text => setResName(text)}

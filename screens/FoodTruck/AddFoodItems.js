@@ -78,8 +78,29 @@ export default function AddFoodItems(props) {
   //   });
   // };
   // ==========================working here==========================
+  const getFormData = () => {
+    if (
+      category !== ''
+      && type !== ''
+      && title !== ''
+      && price !== ''
+      && description !== ''
+      && image !== ''
+    
+    ) {
+      return true;
+    }
+    else {
+      console.log("invalid data")
+      return false;
+    }
+  }
+
+
+
 
   const addFoodtruckItems = async () => {
+    if (getFormData()){
     firebase.firestore().collection("food").add(
       {
         // accid: accid,
@@ -116,6 +137,10 @@ export default function AddFoodItems(props) {
 
     props.navigation.navigate("BtabNav")
   }
+  else{
+    alert("Invalid Data")
+  }
+}
 
 
   return (

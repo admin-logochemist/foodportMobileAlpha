@@ -5,6 +5,7 @@ import LottieView from "lottie-react-native";
 import firebase from "../firebase";
 import MenuItems from "../components/restaurantDetail/MenuItems";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Advertizement from '../components/Advertizement/Advertchunck.js';
 
 export default function Orders() {
 
@@ -14,20 +15,9 @@ export default function Orders() {
 
   
 
-// let dataObj = {};
-  const getData = () => {
-    // AsyncStorage.getAllKeys((err, keys) => {
-    //   AsyncStorage.multiGet(keys, (err, stores) => {
-    //     stores.map((result, i, store) => {
-    //       let key = store[i][0];
-    //       let value = store[i][1];
-    //       const toObject = Object.fromEntries(store);
-    //       console.log(toObject ,"fsgfsd")
-    //       console.log(result ,"fsgfsd")
 
-    //     });
-    //   });
-    // });
+  const getData = () => {
+   
     try {
       AsyncStorage.getItem("email")
       .then(value => {
@@ -73,6 +63,8 @@ useEffect(() => {
         loop={false}
       />
       </View>
+      
+      <Advertizement />
     <View
       style={{
         margin: 12,
@@ -81,9 +73,7 @@ useEffect(() => {
         
       }}
     >
-     {/* <Text style={{ fontSize: 30, fontWeight: "bold", marginTop:20, marginBottom:20, color:"red" }}>
-       Your Orders History
-    </Text> */}
+    
 
       {
         order.map((_eachOrder, orderKey) =>

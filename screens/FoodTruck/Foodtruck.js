@@ -113,7 +113,7 @@ export default function Foodtruck({ navigation, ...props }) {
 
   return (
     <>
-      <View>
+      <View style={{}}>
         <View style={{ alignItems: "center", backgroundColor: "#C0C0C0" }}>
           <Text
             style={{
@@ -126,6 +126,7 @@ export default function Foodtruck({ navigation, ...props }) {
             {myloc.substring(0 , 45)}...
           </Text>
           <SearchBar getSearchValue={getSearchValue} />
+          <View style={{marginBottom:10}}>
      <FAB
         onPress={Mappage}
         title="Navigate To trucks location"
@@ -133,6 +134,7 @@ export default function Foodtruck({ navigation, ...props }) {
         color="green"
         icon={{ name: 'place', color: 'white' }}
       />
+      </View>
           <>
             {usertype == "business" ? (
               <Buttonz
@@ -156,6 +158,7 @@ export default function Foodtruck({ navigation, ...props }) {
               marginBottom: 10,
               marginTop: 10,
               padding: 10,
+              marginBottom:300,
             }}
           >
             {foodtruck !== undefined &&

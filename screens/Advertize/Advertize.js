@@ -5,6 +5,11 @@ import { Divider, Tab, TabView, PricingCard, lightColors, FAB } from "react-nati
 export default function Advertize({navigation}) {
     const [index, setIndex] = React.useState(0);
 
+
+    const Advertdata = () => {
+      navigation.navigate("AdvertImageUpload")
+    }
+
   return (
       <>
     <Tab
@@ -68,7 +73,7 @@ export default function Advertize({navigation}) {
   </View>
  <View style={{ marginTop:50,}}>
   <FAB
-  onPress={""}
+  onPress={Advertdata}
   title="Buy Now"
   upperCase
   color="red"
@@ -114,7 +119,7 @@ export default function Advertize({navigation}) {
     </View>
    <View style={{ marginTop:50,}}>
     <FAB
-    onPress={""}
+    onPress={Advertdata}
     title="Buy Now"
     upperCase
     color="red"
@@ -159,7 +164,7 @@ export default function Advertize({navigation}) {
     </View>
    <View style={{ marginTop:50,}}>
     <FAB
-    onPress={""}
+    onPress={Advertdata}
     title="Buy Now"
     upperCase
     color="red"
