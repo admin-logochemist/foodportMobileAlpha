@@ -1,11 +1,7 @@
-// import firebase from "firebase";
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
-import 'firebase/compat/firestore';
-// const provider = firebase.auth.FacebookAuthProvider;
-// import auth from '@react-native-firebase/auth';
-// import { initializeApp } from "firebase/app";
-// import { getAnalytics } from "firebase/analytics";
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
+import "firebase/compat/firestore";
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -19,15 +15,12 @@ const firebaseConfig = {
   storageBucket: "foodcart-302716.appspot.com",
   messagingSenderId: "960260955873",
   appId: "1:960260955873:web:928126e1bde6bb33bf21a0",
-  measurementId: "G-384WHMMJJG"
+  measurementId: "G-384WHMMJJG",
 };
-
 
 // Initialize Firebase
 !firebase.apps.length ? firebase.initializeApp(firebaseConfig) : firebase.app();
 
 const auth = firebase.auth();
 
-
 export default firebase;
-

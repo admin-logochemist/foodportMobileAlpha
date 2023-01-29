@@ -42,9 +42,15 @@ export default function Login({ props, navigation }) {
               "email",
               JSON.stringify(snapshot.docs[0].data().email)
             );
+
             await AsyncStorage.setItem(
               "userType",
               JSON.stringify(snapshot.docs[0].data().select)
+            );
+
+            await AsyncStorage.setItem(
+              "uid",
+              JSON.stringify(snapshot.docs[0].id)
             );
 
             navigation.navigate("BtabNav");

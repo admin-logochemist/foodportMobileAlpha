@@ -8,7 +8,7 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 
 export default function Map({ navigation, ...props }) {
   const [markers, setMarkers] = useState([]);
-  const [location, setLocation] = useState();
+  const [location, setLocation] = useState("");
   const [origin, setOrigin] = useState({}); //{latitude: 25.0159198, longitude: 67.1294916};
   const [destination, setDestination] = useState({}); //{latitude: 24.895118240675693, longitude: 67.11689262666305};
   const [distance, setDistance] = useState(0);
@@ -59,12 +59,15 @@ export default function Map({ navigation, ...props }) {
 
   return (
     <>
-    <View style={{alignItems:"center", marginTop:40}}>
-          <TouchableOpacity style={{flexDirection: 'row'}} onPress={() => navigation.goBack()}>
+      <View style={{ alignItems: "center", marginTop: 40 }}>
+        <TouchableOpacity
+          style={{ flexDirection: "row" }}
+          onPress={() => navigation.goBack()}
+        >
           <AntDesign name="back" size={37} />
-          <Text style={{fontSize:27, textAlign:"center"}}>GoBack</Text>
-          </TouchableOpacity>
-          </View>
+          <Text style={{ fontSize: 27, textAlign: "center" }}>GoBack</Text>
+        </TouchableOpacity>
+      </View>
       <View style={{ width: "100%", height: "100%" }}>
         <MapView
           style={{ width: "100%", height: "100%" }}
@@ -78,23 +81,22 @@ export default function Map({ navigation, ...props }) {
           showsUserLocation={true}
           ref={(c) => (mapView = c)}
         >
+          {origin && destination ? (
+            <MapViewDirections
+              origin={origin}
+              destination={destination}
+              apikey={GOOGLE_MAPS_APIKEY}
+              strokeWidth={4}
+              strokeColor="lightblue"
+              precision="low"
+              timePrecision="now"
+              mode="DRIVING"
+              tappable={true}
+              onReady={(result) => {
+                setDistance(result.distance);
+                setDuration(result.duration);
 
-        
-          <MapViewDirections
-            origin={origin}
-            destination={destination}
-            apikey={GOOGLE_MAPS_APIKEY}
-            strokeWidth={4}
-            strokeColor="lightblue"
-            precision="low"
-            timePrecision="now"
-            mode="DRIVING"
-            tappable={true}
-            onReady={(result) => {
-              setDistance(result.distance);
-              setDuration(result.duration);
-
-              if (mapView) {
+                if (mapView) {
                   mapView.fitToCoordinates(result.coordinates, {
                     edgePadding: {
                       right: 100 / 20,
@@ -103,9 +105,12 @@ export default function Map({ navigation, ...props }) {
                       top: 100 / 20,
                     },
                   });
-              }
-            }}
-          />
+                }
+              }}
+            />
+          ) : (
+            <></>
+          )}
           {markers.map((mk, i) => (
             <Marker
               key={i + `${new Date().getMilliseconds()}`}
@@ -125,14 +130,12 @@ export default function Map({ navigation, ...props }) {
             />
           ))}
 
-          
           <View>
             <Text>
               distance: {distance.toFixed(2)} km - time: {duration.toFixed(0)}{" "}
               mins
             </Text>
           </View>
-          
         </MapView>
       </View>
     </>

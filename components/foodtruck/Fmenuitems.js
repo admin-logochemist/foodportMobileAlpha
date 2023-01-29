@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     margin: 20,
   },
 
-    titleStyle: {
+  titleStyle: {
     fontSize: 19,
     fontWeight: "600",
   },
@@ -35,43 +35,42 @@ export default function Fmenuitems({
         checkboxValue: checkboxValue,
       },
     });
-  
 
   const cartItems = useSelector(
     (state) => state.cartReducer.selectedItems.items
   );
-  
+
   const isFoodInCart = (food, cartItems) =>
     Boolean(cartItems.find((item) => item.title === food.title));
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
-    <View>
-      {foods.map((food, index) => (
-        <View key={index}>
-          <View style={styles.menuItemStyle}>
-            {hideCheckbox ? (
-              <></>
-            ) : (
-              <BouncyCheckbox
-                iconStyle={{ borderColor: "red", borderRadius: 0 }}
-                fillColor="red"
-                isChecked={isFoodInCart(food, cartItems)}
-                onPress={(checkboxValue) => selectItem(food, checkboxValue)}
-              />
-            )}
-            <FoodInfo food={food} />
-            <FoodImage food={food} marginLeft={marginLeft ? marginLeft : 0} />
+      <View>
+        {foods.map((food, index) => (
+          <View key={index}>
+            <View style={styles.menuItemStyle}>
+              {hideCheckbox ? (
+                <></>
+              ) : (
+                <BouncyCheckbox
+                  iconStyle={{ borderColor: "red", borderRadius: 0 }}
+                  fillColor="red"
+                  isChecked={isFoodInCart(food, cartItems)}
+                  onPress={(checkboxValue) => selectItem(food, checkboxValue)}
+                />
+              )}
+              <FoodInfo food={food} />
+              <FoodImage food={food} marginLeft={marginLeft ? marginLeft : 0} />
+            </View>
+            <Divider
+              width={0.5}
+              orientation="vertical"
+              style={{ marginHorizontal: 20 }}
+            />
           </View>
-          <Divider
-            width={0.5}
-            orientation="vertical"
-            style={{ marginHorizontal: 20 }}
-          />
-        </View>
-      ))}
+        ))}
       </View>
-      </ScrollView>
+    </ScrollView>
   );
 }
 
@@ -91,7 +90,6 @@ const FoodImage = ({ marginLeft, ...props }) => (
         width: 100,
         height: 100,
         borderRadius: 8,
-        // marginLeft: marginLeft,
       }}
     />
   </View>

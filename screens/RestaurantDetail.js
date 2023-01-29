@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, ScrollView  } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 import { Divider } from "react-native-elements";
 import About from "../components/restaurantDetail/About";
 import MenuItems from "../components/restaurantDetail/MenuItems";
@@ -48,12 +48,12 @@ const foods = [
 export default function RestaurantDetail({ route, navigation }) {
   return (
     <>
-    <ScrollView>
-      <About route={route} />
-      <Divider width={1.8} style={{ marginVertical: 10 }} />
-      <MenuItems restaurantName={route.params.name} foods={foods} />
-    </ScrollView>
-    <ViewCart navigation={navigation} />
+      <ScrollView>
+        <About route={route} />
+        <Divider width={1.8} style={{ marginVertical: 10 }} />
+        <MenuItems restaurantName={route.params.name} foods={foods} />
+      </ScrollView>
+      <ViewCart navigation={navigation} />
     </>
   );
 }

@@ -21,21 +21,22 @@ export default function Accounts({ navigation }) {
   const [email, setEmail] = useState("");
 
   useEffect(() => {
-    AsyncStorage.getItem("email").then((value) => {
-      if (value) {
-        setEmail(JSON.parse(value));
+    (async () =>
+      await AsyncStorage.getItem("email").then((value) => {
+        if (value) {
+          setEmail(JSON.parse(value));
 
-        firebase
-          .firestore()
-          .collection("userid")
-          .where("email", "==", JSON.parse(value).toLowerCase())
-          .onSnapshot((snapshot) => {
-            snapshot.docs.map((doc) => {
-              setAccount(doc.data());
+          firebase
+            .firestore()
+            .collection("userid")
+            .where("email", "==", JSON.parse(value).toLowerCase())
+            .onSnapshot((snapshot) => {
+              snapshot.docs.map((doc) => {
+                setAccount(doc.data());
+              });
             });
-          });
-      }
-    });
+        }
+      }))();
   }, []);
 
   const logout = async () => {

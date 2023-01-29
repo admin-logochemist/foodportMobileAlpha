@@ -4,32 +4,28 @@ import { useSelector } from "react-redux";
 import OrderItem from "./OrderItem";
 import firebase from "../../firebase";
 import LottieView from "lottie-react-native";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function ViewCart({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState('');
-
+  const [email, setEmail] = useState("");
 
   const getData = () => {
     try {
-        AsyncStorage.getItem("email")
-        .then(value => {
-            if (value != null) {
-                setEmail(JSON.parse(value))
-            }
-        })
-    } catch (error){
-        console.log(error);
+      AsyncStorage.getItem("email").then((value) => {
+        if (value != null) {
+          setEmail(JSON.parse(value));
+        }
+      });
+    } catch (error) {
+      console.log(error);
     }
-}
+  };
 
-useEffect(() => {
-
-  getData();
-
-}, [email])
+  useEffect(() => {
+    getData();
+  }, [email]);
 
   const { items, restaurantName } = useSelector(
     (state) => state.cartReducer.selectedItems
@@ -63,22 +59,21 @@ useEffect(() => {
   // };
 
   const addOrderToStripe = () => {
-
     setLoading(true);
     const Mynavigation = () => {
-            setTimeout(() => {
-              setLoading(false);
-              navigation.navigate("StripeCard", {
-                items: items,
-                 restaurantName: restaurantName,
-                 email: email,
-                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-              });
-            }, 2500);
-          };
+      setTimeout(() => {
+        setLoading(false);
+        navigation.navigate("StripeCard", {
+          items: items,
+          restaurantName: restaurantName,
+          email: email,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        });
+      }, 2500);
+    };
 
-      Mynavigation();
-  }
+    Mynavigation();
+  };
 
   const styles = StyleSheet.create({
     modalContainer: {

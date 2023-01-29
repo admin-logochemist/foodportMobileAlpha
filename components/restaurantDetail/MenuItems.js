@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     margin: 20,
   },
 
-    titleStyle: {
+  titleStyle: {
     fontSize: 19,
     fontWeight: "600",
   },
@@ -35,12 +35,11 @@ export default function MenuItems({
         checkboxValue: checkboxValue,
       },
     });
-  
 
   const cartItems = useSelector(
     (state) => state.cartReducer.selectedItems.items
   );
-  
+
   const isFoodInCart = (food, cartItems) =>
     Boolean(cartItems.find((item) => item.title === food.title));
 

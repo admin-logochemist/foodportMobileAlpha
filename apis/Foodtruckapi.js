@@ -1,6 +1,6 @@
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
-import 'firebase/compat/firestore';
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
+import "firebase/compat/firestore";
 // import 'react-native-get-random-values';
 
 // import { v4 as uuidv4 } from 'uuid';
@@ -134,56 +134,55 @@ import 'firebase/compat/firestore';
 // }
 
 export function addFoodTruck(foodtruck, addComplete) {
-//   foodtruck.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+  //   foodtruck.createdAt = firebase.firestore.FieldValue.serverTimestamp();
 
-//   firebase.firestore()
-//     .collection('alphatest')
-//     .add(foodtruck)
-//     .then((snapshot) => {
-//       foodtruck.id = snapshot.id;
-//       snapshot.set(foodtruck);
-//     }).then(() => addComplete(foodtruck))
-//     .catch((error) => console.log(error));
-firebase.firestore()
-.collection('alphatest')
-.add({
-    name : foodtruck.name,
-    address: foodtruck.address,
-    cusine: foodtruck.dishname,
-    phone: foodtruck.phone,
-    image: foodtruck.image,
-    type: foodtruck.type,
-    monday : foodtruck.monday,
-    tuesday : foodtruck.tuesday,
-    wednesday : foodtruck.wednesday,
-    thursday : foodtruck.thursday,
-    friday : foodtruck.friday,
-    saturday : foodtruck.saturday,
-    sunday : foodtruck.sunday,
-    about : foodtruck.about,
-    createdAt : firebase.firestore.FieldValue.serverTimestamp()
-})
-.then((snapshot) => snapshot.get()
-).then((foodtruckData) => foodtruckData.data())
-.catch((error) => console.log(error));
+  //   firebase.firestore()
+  //     .collection('alphatest')
+  //     .add(foodtruck)
+  //     .then((snapshot) => {
+  //       foodtruck.id = snapshot.id;
+  //       snapshot.set(foodtruck);
+  //     }).then(() => addComplete(foodtruck))
+  //     .catch((error) => console.log(error));
+  firebase
+    .firestore()
+    .collection("alphatest")
+    .add({
+      name: foodtruck.name,
+      address: foodtruck.address,
+      cusine: foodtruck.dishname,
+      phone: foodtruck.phone,
+      image: foodtruck.image,
+      type: foodtruck.type,
+      monday: foodtruck.monday,
+      tuesday: foodtruck.tuesday,
+      wednesday: foodtruck.wednesday,
+      thursday: foodtruck.thursday,
+      friday: foodtruck.friday,
+      saturday: foodtruck.saturday,
+      sunday: foodtruck.sunday,
+      about: foodtruck.about,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    })
+    .then((snapshot) => snapshot.get())
+    .then((foodtruckData) => foodtruckData.data())
+    .catch((error) => console.log(error));
 }
 
-
 export async function getFoodTruck(foodtruckRetrived) {
-    
-    var foodTruckList = [];
+  var foodTruckList = [];
 
-    var snapshot = await firebase.firestore()
+  var snapshot = await firebase
+    .firestore()
     .collection("FoodTruck")
     .orderBy("createdAt")
-    .get()
+    .get();
 
-    snapshot.forEach((doc) => {
-    foodTruckList.push(doc.data())
-});
+  snapshot.forEach((doc) => {
+    foodTruckList.push(doc.data());
+  });
 
-foodsRetreived(foodTruckList);
-
+  foodsRetreived(foodTruckList);
 }
 
 /*

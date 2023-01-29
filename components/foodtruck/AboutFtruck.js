@@ -2,10 +2,8 @@ import React from "react";
 import { View, Text, Image } from "react-native";
 
 export default function AboutFtruck(props) {
-  const {  name, address, cusine, phone, image, about } =
-    props.route.params;
-   
-   
+  const { name, address, cusine, phone, image, about } = props.route.params;
+
   return (
     <View>
       <RestaurantImage image={image} />
@@ -34,7 +32,7 @@ const RestaurantName = (props) => (
 
 const RestaurantDescription = (props) => (
   <Text
-  numberOfLines={2}
+    numberOfLines={2}
     style={{
       marginTop: 10,
       marginHorizontal: 15,
