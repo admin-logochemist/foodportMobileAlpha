@@ -50,15 +50,7 @@ export default function Advertize({ navigation }) {
 
   return (
     <>
-      {/* remove this code its for testing */}
-      <View style={{ marginTop: 50 }}>
-        <Button
-          onPress={Advertdata}
-          title="Buy Now"
-          upperCase
-          color="red"
-          icon={{ name: "timer", color: "white" }}
-        />
+    <View>
       </View>
       <Tab
         value={index}

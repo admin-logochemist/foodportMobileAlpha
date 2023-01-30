@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, Button } from "react-native";
+import { View, Text, SafeAreaView, ImageBackground, Button, Image } from "react-native";
 import React from "react";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import * as ImagePicker from "expo-image-picker";
@@ -8,6 +8,7 @@ import Field from "../../components/Authentication/Field";
 import firebase from "../../firebase.js";
 import { useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Buttonz from '../../components/Advertizement/Button.js'
 
 export default function AdvertImageUpload({ route }) {
   const [imageUri, setImage] = useState("");
@@ -77,18 +78,35 @@ export default function AdvertImageUpload({ route }) {
   };
 
   return (
-    <SafeAreaView>
-      <View style={{ marginTop: 50 }}>
-        <Button title="Pick an image from camera roll" onPress={pickImage} />
-        <ScrollView>
+    <View>
+    <ImageBackground 
+    source={require("../../assets/advertize/Group_39.png")}
+    style={{
+      height: "100%",
+      // flex: 1,
+    // position: 'absolute',
+    // left: 0,
+    // top: 0,
+    opacity: 1,
+    backgroundColor: 'black',
+    }}
+    >
+    <View style={{alignItems:"center", width:"100%", marginTop:100}}>
+    <Image source={require('../../assets/logo/food_port_logo_WHITE-01.png')}
+    style={{ width:300, height:70}}
+    />
+    </View>
+    <ScrollView>
+    <View style={{ marginTop: 50, alignItems:"center", width:"100%" }}>
           <Text
             style={{
-              color: "black",
-              fontSize: 17,
+              marginTop:6,
+              color: "white",
+              fontSize: 20,
               fontWeight: "bold",
             }}
           >
-            Ad Name{" "}
+            Advertizment Name{" "}
           </Text>
           <Field
             value={adName}
@@ -97,12 +115,13 @@ export default function AdvertImageUpload({ route }) {
           />
           <Text
             style={{
-              color: "black",
-              fontSize: 17,
+              marginTop:6,
+              color: "white",
+              fontSize: 20,
               fontWeight: "bold",
             }}
           >
-            Heading{" "}
+          Advertizment Heading{" "}
           </Text>
           <Field
             value={heading}
@@ -111,23 +130,26 @@ export default function AdvertImageUpload({ route }) {
           />
           <Text
             style={{
-              color: "black",
-              fontSize: 17,
+              marginTop:6,
+              color: "white",
+              fontSize: 20,
               fontWeight: "bold",
             }}
           >
-            Description{" "}
+          Advertizment Description{" "}
           </Text>
           <Field
             value={description}
             onChangeText={(text) => setDescription(text)}
             palceholder="Description"
           />
-        </ScrollView>
+          <Button title="Pick an image from your gallery" onPress={pickImage} />
+          <Buttonz textColor="white" bgColor="red" btnLabel="Buy" onPress={proceedNext} />
+          </View>
 
-        <Button title="Buy" onPress={proceedNext} />
-      </View>
-    </SafeAreaView>
+        </ScrollView>
+        </ImageBackground>
+    </View>
   );
 }
 
