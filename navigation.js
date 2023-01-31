@@ -30,6 +30,7 @@ export default function RootNavigation() {
     headerShown: false,
   };
 
+ 
 
   return (
     <ReduxProvider store={store}>

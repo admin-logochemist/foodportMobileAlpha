@@ -8,7 +8,8 @@ import Field from "../../components/Authentication/Field";
 import firebase from "../../firebase.js";
 import { useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import Buttonz from '../../components/Advertizement/Button.js'
+import Buttonz from '../../components/Advertizement/Button.js';
+import StripeField from '../../components/Stripe/Stripe.js';
 
 export default function AdvertImageUpload({ route }) {
   const [imageUri, setImage] = useState("");
@@ -93,11 +94,11 @@ export default function AdvertImageUpload({ route }) {
     >
     <View style={{alignItems:"center", width:"100%", marginTop:100}}>
     <Image source={require('../../assets/logo/food_port_logo_WHITE-01.png')}
-    style={{ width:300, height:70}}
+    style={{ width:300, height:70 }}
     />
     </View>
     <ScrollView>
-    <View style={{ marginTop: 50, alignItems:"center", width:"100%" }}>
+    <View style={{ marginTop: 50, alignItems:"center", width:"100%", marginBottom:200 }}>
           <Text
             style={{
               marginTop:6,
@@ -143,7 +144,12 @@ export default function AdvertImageUpload({ route }) {
             onChangeText={(text) => setDescription(text)}
             palceholder="Description"
           />
+          <View style={{width:"95%"}}>
+          <StripeField />
+          </View>
           <Button title="Pick an image from your gallery" onPress={pickImage} />
+
+
           <Buttonz textColor="white" bgColor="red" btnLabel="Buy" onPress={proceedNext} />
           </View>
 

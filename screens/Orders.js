@@ -67,11 +67,12 @@ export default function Orders() {
           loop={false}
         />
       </View>
-
+      
       <Advertizement />
+     
       <View
         style={{
-          margin: 12,
+          // margin: 12,
           alignItems: "center",
           height: "100%",
         }}

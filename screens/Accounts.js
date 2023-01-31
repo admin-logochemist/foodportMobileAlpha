@@ -49,7 +49,19 @@ export default function Accounts({ navigation }) {
   };
 
   const EditProfile = () => {
-    navigation.navigate("Editaccounts");
+    navigation.navigate("Editaccounts", {
+      name: account.name,
+      about: account.about,
+      address: account.address,
+      city: account.city,
+      country: account.country,
+      currency: account.currency,
+      image: account.image,
+      password: account.password,
+      phone: account.phone,
+      state: account.state,
+      zipcode: account.zipcode
+    });
   };
 
   return (
@@ -61,7 +73,14 @@ export default function Accounts({ navigation }) {
           source={require("../assets/accounts/alphaz.png")}
         >
           <View style={styles.headerColumn}>
+
+{account.image? 
             <Image style={styles.userImage} source={{ uri: account.image }} />
+            :
+            <Image style={styles.userImage} source={require("../assets/user/av-01.png")} />
+
+}
+           
             <Text style={styles.userNameText}>{account.name}</Text>
             <View style={styles.userAddressRow}>
               <View>
