@@ -13,34 +13,26 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function FavoriteScreen({ navigation, ...props }) {
   const [favourites, setFavourites] = useState([]);
-  const [email, setEmail] = useState("");
 
-  const getData = async () => {
-    try {
-      AsyncStorage.getItem("email").then((value) => {
-        if (value != null) {
-          setEmail(JSON.parse(value));
-        }
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  var tempdata = [];
   useEffect(() => {
-    getData();
-    let firebaseCollection = firebase
-      .firestore()
-      .collection("resturant")
-      .where("remail", "==", email);
+    (async () =>
+      await AsyncStorage.getItem("email").then((value) => {
+        if (value) {
+          firebase
+            .firestore()
+            .collection("favoritealpha")
+            .where("userEmail", "==", JSON.parse(value).toLowerCase())
+            .onSnapshot((snapshot) => {
+              let _tempData = [];
 
-    firebaseCollection.onSnapshot((snapshot) => {
-      snapshot.docs.map((doc) => {
-        tempdata.push({ ...doc.data() });
-      });
-      setFavourites(tempdata);
-    });
+              snapshot.docs.map((doc) => {
+                _tempData.push(doc.data());
+              });
+
+              setFavourites(_tempData);
+            });
+        }
+      }))();
   }, []);
 
   return (

@@ -67,9 +67,9 @@ export default function Orders() {
           loop={false}
         />
       </View>
-      
+
       <Advertizement />
-     
+
       <View
         style={{
           // margin: 12,

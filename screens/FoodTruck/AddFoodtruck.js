@@ -14,6 +14,7 @@ import Input from "../../components/foodtruck/Input.js";
 import Buttonz from "../../components/foodtruck/Button.js";
 import RNPickerSelect from "react-native-picker-select";
 import * as ImagePicker from "expo-image-picker";
+import uploadImageAsync from "../../services/UploadService.js";
 
 export default function AddFoodtruck({ navigation }) {
   const [loading, setLoading] = useState(false);
@@ -47,8 +48,6 @@ export default function AddFoodtruck({ navigation }) {
       aspect: [4, 3],
       quality: 1,
     });
-
-    console.log(result);
 
     if (!result.canceled) {
       setImage(result.assets[0].uri);
@@ -104,8 +103,21 @@ export default function AddFoodtruck({ navigation }) {
           About: about,
           time: firebase.firestore.FieldValue.serverTimestamp(),
         })
-        .then((docRef) => {
-          console.log(docRef.id);
+        .then(async (docRef) => {
+          const imageLink = await uploadImageAsync(
+            "resturant/" + docRef.id + "/",
+            docRef.id,
+            imageUrl
+          );
+
+          await firebase
+            .firestore()
+            .collection("resturant")
+            .doc(docRef.id)
+            .update({
+              image: imageLink,
+            });
+
           return docRef.set({
             itemid: docRef.id,
             remail: "hamburger@gmail.com",
@@ -235,12 +247,12 @@ export default function AddFoodtruck({ navigation }) {
                 title="Pick an image from camera roll"
                 onPress={pickImage}
               />
-              {image && (
+              {/* {image && (
                 <Image
                   source={{ uri: image }}
                   style={{ width: 200, height: 200 }}
                 />
-              )}
+              )} */}
             </View>
 
             <View style={{ alignItems: "center" }}>

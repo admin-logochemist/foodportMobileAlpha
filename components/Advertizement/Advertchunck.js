@@ -1,24 +1,40 @@
 import { View, Text, Image, StyleSheet } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import firebase from "../../firebase";
 
 import { ImageSlider } from "react-native-image-slider-banner";
 
-
-
 const advertchunck = () => {
+  const [ads, setAds] = useState([]);
+
+  useEffect(() => {
+    let _tempData = [];
+
+    firebase
+      .firestore()
+      .collection("advertpackage")
+      .where("active", "==", true)
+      .where("approval", "==", "Approved")
+      .onSnapshot((snapshot) => {
+        snapshot.docs.map((doc) => {
+          _tempData.push({
+            ...doc.data(),
+            img: doc.data().image,
+          });
+        });
+        setAds(_tempData);
+      });
+  });
+
   return (
     <View>
-  <Text style={styles.text}>Your Advertizment Start</Text>
-      <ImageSlider 
-    data={[
-        {img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5a5uCP-n4teeW2SApcIqUrcQApev8ZVCJkA&usqp=CAU'},
-        {img: 'https://thumbs.dreamstime.com/b/environment-earth-day-hands-trees-growing-seedlings-bokeh-green-background-female-hand-holding-tree-nature-field-gra-130247647.jpg'},
-        {img: 'https://cdn.pixabay.com/photo/2015/04/19/08/32/marguerite-729510__340.jpg'}
-    ]}
-    autoPlay={false}
-    onItemChanged={(item) => console.log("item", item)}
-    closeIconColor="#fff"
-/>
+      <Text style={styles.text}>Your Advertizment Start</Text>
+      <ImageSlider
+        data={ads}
+        autoPlay={false}
+        onItemChanged={(item) => console.log("item", item)}
+        closeIconColor="#fff"
+      />
     </View>
   );
 };
