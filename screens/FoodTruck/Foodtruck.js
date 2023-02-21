@@ -169,10 +169,10 @@ export default function Foodtruck({ navigation, ...props }) {
                 .filter((item) =>
                   item.resName.toLowerCase().includes(search.toLowerCase())
                 )
-                .map((items) => (
+                .map((items, key) => (
                   <>
                     <TouchableOpacity
-                      key={items?.itemid}
+                      key={items.itemid}
                       activeOpacity={1}
                       style={{ marginBottom: 30 }}
                       onPress={() =>

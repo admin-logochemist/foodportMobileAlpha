@@ -26,15 +26,16 @@ export default function Fmenuitems({
 }) {
   const dispatch = useDispatch();
 
-  const selectItem = (item, checkboxValue) =>
-    dispatch({
-      type: "ADD_TO_CART",
-      payload: {
-        ...item,
-        restaurantName: restaurantName,
-        checkboxValue: checkboxValue,
-      },
-    });
+  const selectItem = (item, checkboxValue) => {
+      dispatch({
+        type: "ADD_TO_CART",
+        payload: {
+          ...item,
+          restaurantName: restaurantName,
+          checkboxValue: checkboxValue,
+        }
+      });
+  }
 
   const cartItems = useSelector(
     (state) => state.cartReducer.selectedItems.items
