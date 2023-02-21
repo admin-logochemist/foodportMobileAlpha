@@ -117,6 +117,7 @@ const RestaurantImage = (props) => {
         categories: props.restaurant.categories,
         id: props.restaurant.id,
         userEmail: email,
+        resName: props.restaurant.name,
       })
       .then((docRef) => {
         setFavDelId(docRef.id);
@@ -130,6 +131,7 @@ const RestaurantImage = (props) => {
           rating: props.restaurant.rating,
           categories: props.restaurant.categories,
           id: props.restaurant.id,
+          resName: props.restaurant.name,
           time: firebase.firestore.FieldValue.serverTimestamp(),
         });
       });

@@ -1,12 +1,22 @@
-import { View, Text, SafeAreaView, ImageBackground, Button, Image } from "react-native";
-import React from "react"; 
+import {
+  View,
+  Text,
+  SafeAreaView,
+  ImageBackground,
+  Button,
+  Image,
+} from "react-native";
+import React from "react";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import * as ImagePicker from "expo-image-picker";
 import { ScrollView } from "react-native-gesture-handler";
 import Field from "../../components/Authentication/Field";
 import firebase from "../../firebase.js";
-import { useEffect , useState } from "react";
+import  { useEffect , useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import Buttonz from '../../components/Advertizement/Button.js';
-import StripeField from '../../components/Stripe/Stripe.js';
+import Buttonz from "../../components/Advertizement/Button.js";
+import StripeField from "../../components/Stripe/Stripe.js";
+import uploadImageAsync from "../../services/UploadService";
 
 export default function AdvertImageUpload({ route, navigation }) {
   const [imageUri, setImage] = useState("");
@@ -62,126 +72,140 @@ export default function AdvertImageUpload({ route, navigation }) {
     //     active: false,
     //     packageDateStart: date.setDate(date.getDate()),
     //     packageDateEnd: date.setDate(date.getDate() + durationDays),
-    //     approved: "pending",
+    //     approval: "pending",
     //     packageId: packageId,
     //   })
     //   .then(async (docRef) => {
     //     setDocRefId(docRef.id);
-    //     const imageLink = await uploadImageAsync(thisUid, docRef.id, imageUri);
+    //     const imageLink = await uploadImageAsync(
+    //       "advertize/" + uid + "/",
+    //       docRef.id,
+    //       imageUri
+        
 
-    //     await db.collection("advertpackage").doc(docRef.id).update({
-    //       image: imageLink,
-    //     });
-    //   });
-      // console.log("Alpha ")
+    //    )});
+     
       navigation.navigate("Myaddslist")
   };
 
   return (
     <View>
-    <ImageBackground 
-    source={require("../../assets/advertize/Group_39.png")}
-    style={{
-      height: "100%",
-      // flex: 1,
-    // position: 'absolute',
-    // left: 0,
-    // top: 0,
-    opacity: 1,
-    backgroundColor: 'black',
-    }}
-    >
-    <View style={{alignItems:"center", width:"100%", marginTop:100}}>
-    <Image source={require('../../assets/logo/food_port_logo_WHITE-01.png')}
-    style={{ width:300, height:70 }}
-    />
-    </View>
-    <ScrollView>
-    <View style={{ marginTop: 50, alignItems:"center", width:"100%", marginBottom:200 }}>
-          <Text
+      <ImageBackground
+        source={require("../../assets/advertize/Group_39.png")}
+        style={{
+          height: "100%",
+          // flex: 1,
+          // position: 'absolute',
+          // left: 0,
+          // top: 0,
+          opacity: 1,
+          backgroundColor: "black",
+        }}
+      >
+        <View style={{ alignItems: "center", width: "100%", marginTop: 100 }}>
+          <Image
+            source={require("../../assets/logo/food_port_logo_WHITE-01.png")}
+            style={{ width: 300, height: 70 }}
+          />
+        </View>
+        <ScrollView>
+          <View
             style={{
-              marginTop:6,
-              color: "white",
-              fontSize: 20,
-              fontWeight: "bold",
+              marginTop: 50,
+              alignItems: "center",
+              width: "100%",
+              marginBottom: 200,
             }}
           >
-            Advertizment Name{" "}
-          </Text>
-          <Field
-            value={adName}
-            onChangeText={(text) => setName(text)}
-            palceholder="Ad name"
-          />
-          <Text
-            style={{
-              marginTop:6,
-              color: "white",
-              fontSize: 20,
-              fontWeight: "bold",
-            }}
-          >
-          Advertizment Heading{" "}
-          </Text>
-          <Field
-            value={heading}
-            onChangeText={(text) => setHeading(text)}
-            palceholder="Heading"
-          />
-          <Text
-            style={{
-              marginTop:6,
-              color: "white",
-              fontSize: 20,
-              fontWeight: "bold",
-            }}
-          >
-          Advertizment Description{" "}
-          </Text>
-          <Field
-            value={description}
-            onChangeText={(text) => setDescription(text)}
-            palceholder="Description"
-          />
-          <View style={{width:"95%"}}>
-          <StripeField />
+            <Text
+              style={{
+                marginTop: 6,
+                color: "white",
+                fontSize: 20,
+                fontWeight: "bold",
+              }}
+            >
+              Advertizment Name{" "}
+            </Text>
+            <Field
+              value={adName}
+              onChangeText={(text) => setName(text)}
+              palceholder="Ad name"
+            />
+            <Text
+              style={{
+                marginTop: 6,
+                color: "white",
+                fontSize: 20,
+                fontWeight: "bold",
+              }}
+            >
+              Advertizment Heading{" "}
+            </Text>
+            <Field
+              value={heading}
+              onChangeText={(text) => setHeading(text)}
+              palceholder="Heading"
+            />
+            <Text
+              style={{
+                marginTop: 6,
+                color: "white",
+                fontSize: 20,
+                fontWeight: "bold",
+              }}
+            >
+              Advertizment Description{" "}
+            </Text>
+            <Field
+              value={description}
+              onChangeText={(text) => setDescription(text)}
+              palceholder="Description"
+            />
+            <View style={{ width: "95%" }}>
+              <StripeField />
+            </View>
+            <Button
+              title="Pick an image from your gallery"
+              onPress={pickImage}
+            />
+
+            <Buttonz
+              textColor="white"
+              bgColor="red"
+              btnLabel="Buy"
+              Press={proceedNext}
+            />
           </View>
-          <Button title="Pick an image from your gallery" onPress={pickImage} />
-
-
-          <Buttonz textColor="white" bgColor="red" btnLabel="Buy" Press={proceedNext} />
-          </View>
-
         </ScrollView>
-        </ImageBackground>
+      </ImageBackground>
     </View>
   );
 }
 
-// export default AdvertImageUpload;
-async function uploadImageAsync(uid, docId, uri) {
-  // Why are we using XMLHttpRequest? See:
-  // https://github.com/expo/expo/issues/2402#issuecomment-443726662
-  const blob = await new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest();
-    xhr.onload = function () {
-      resolve(xhr.response);
-    };
-    xhr.onerror = function (e) {
-      console.log(e);
-      reject(new TypeError("Network request failed"));
-    };
-    xhr.responseType = "blob";
-    xhr.open("GET", uri, true);
-    xhr.send(null);
-  });
+// // export default AdvertImageUpload;
+// async function uploadImageAsync(uid, docId, uri) {
+//   // Why are we using XMLHttpRequest? See:
+//   // https://github.com/expo/expo/issues/2402#issuecomment-443726662
+//   const blob = await new Promise((resolve, reject) => {
+//     const xhr = new XMLHttpRequest();
+//     xhr.onload = function () {
+//       resolve(xhr.response);
+//     };
+//     xhr.onerror = function (e) {
+//       console.log(e);
+//       reject(new TypeError("Network request failed"));
+//     };
+//     xhr.responseType = "blob";
+//     xhr.open("GET", uri, true);
+//     xhr.send(null);
+//   });
 
-  const fileRef = ref(getStorage(), "advertize/" + uid + "/" + docId);
-  const result = await uploadBytes(fileRef, blob);
+//   const fileRef = ref(getStorage(), "advertize/" + uid + "/" + docId);
+//   const result = await uploadBytes(fileRef, blob);
 
-  // We're done with the blob, close and release it
-  blob.close();
+//   // We're done with the blob, close and release it
+//   blob.close();
 
-  console.log(fileRef);
-  return await getDownloadURL(fileRef);
-}
+//   return await getDownloadURL(fileRef);
+// }
