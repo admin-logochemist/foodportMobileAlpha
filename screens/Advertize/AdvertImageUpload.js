@@ -1,17 +1,14 @@
 import { View, Text, SafeAreaView, ImageBackground, Button, Image } from "react-native";
-import React from "react";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import * as ImagePicker from "expo-image-picker";
-import { useState } from "react";
+import React from "react"; 
 import { ScrollView } from "react-native-gesture-handler";
 import Field from "../../components/Authentication/Field";
 import firebase from "../../firebase.js";
-import { useEffect } from "react";
+import { useEffect , useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Buttonz from '../../components/Advertizement/Button.js';
 import StripeField from '../../components/Stripe/Stripe.js';
 
-export default function AdvertImageUpload({ route }) {
+export default function AdvertImageUpload({ route, navigation }) {
   const [imageUri, setImage] = useState("");
   const [adName, setName] = useState("");
   const [thisUid, setUid] = useState("");
@@ -53,29 +50,31 @@ export default function AdvertImageUpload({ route }) {
   };
 
   const proceedNext = () => {
-    const date = new Date();
+    // const date = new Date();
 
-    db.collection("advertpackage")
-      .add({
-        uuid: thisUid,
-        uEmail: email,
-        name: adName,
-        heading: heading,
-        description: description,
-        active: false,
-        packageDateStart: date.setDate(date.getDate()),
-        packageDateEnd: date.setDate(date.getDate() + durationDays),
-        approved: "pending",
-        packageId: packageId,
-      })
-      .then(async (docRef) => {
-        setDocRefId(docRef.id);
-        const imageLink = await uploadImageAsync(thisUid, docRef.id, imageUri);
+    // db.collection("advertpackage")
+    //   .add({
+    //     uuid: thisUid,
+    //     uEmail: email,
+    //     name: adName,
+    //     heading: heading,
+    //     description: description,
+    //     active: false,
+    //     packageDateStart: date.setDate(date.getDate()),
+    //     packageDateEnd: date.setDate(date.getDate() + durationDays),
+    //     approved: "pending",
+    //     packageId: packageId,
+    //   })
+    //   .then(async (docRef) => {
+    //     setDocRefId(docRef.id);
+    //     const imageLink = await uploadImageAsync(thisUid, docRef.id, imageUri);
 
-        await db.collection("advertpackage").doc(docRef.id).update({
-          image: imageLink,
-        });
-      });
+    //     await db.collection("advertpackage").doc(docRef.id).update({
+    //       image: imageLink,
+    //     });
+    //   });
+      // console.log("Alpha ")
+      navigation.navigate("Myaddslist")
   };
 
   return (
@@ -150,7 +149,7 @@ export default function AdvertImageUpload({ route }) {
           <Button title="Pick an image from your gallery" onPress={pickImage} />
 
 
-          <Buttonz textColor="white" bgColor="red" btnLabel="Buy" onPress={proceedNext} />
+          <Buttonz textColor="white" bgColor="red" btnLabel="Buy" Press={proceedNext} />
           </View>
 
         </ScrollView>

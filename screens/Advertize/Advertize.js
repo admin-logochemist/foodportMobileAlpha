@@ -20,8 +20,7 @@ export default function Advertize({ navigation }) {
   const Advertdata = () => {
     navigation.navigate(
       "AdvertImageUpload",
-
-      // send advertise object
+      
       {
         packageId: "dgjNGqUCYJ79hBrc6de9",
         durationDays: 10,

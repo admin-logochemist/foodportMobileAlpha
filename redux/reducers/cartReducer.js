@@ -36,3 +36,4 @@ let defaultState = {
   };
   
   export default cartReducer;
+  

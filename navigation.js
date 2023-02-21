@@ -18,6 +18,8 @@ import StripeCard from './screens/StripeCard.js';
 import Trucklocation from './screens/FoodTruck/Trucklocation.js';
 import Map from './screens/Map/Map';
 import AdvertImageUpload from './screens/Advertize/AdvertImageUpload.js';
+import Myaddslist from './screens/Advertize/Myaddslist.js';
+import Advertpay from './screens/Advertize/Advertpay.js';
 
 
 
@@ -51,6 +53,8 @@ export default function RootNavigation() {
           <Stack.Screen name="Trucklocation" component={Trucklocation} />
           <Stack.Screen name="Map" component={Map} />
           <Stack.Screen name="AdvertImageUpload" component={AdvertImageUpload} />
+          <Stack.Screen name="Myaddslist" component={Myaddslist} />
+          <Stack.Screen name="Advertpay" component={Advertpay} />
         </Stack.Navigator>
       </NavigationContainer>
     </ReduxProvider>
