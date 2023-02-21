@@ -154,6 +154,7 @@ export default function FoodtruckDetail({ route, navigation }) {
                 }}
               >
                 Click For Location
+                Click For Location
               </Text>
               {usertype === "business" ? (
                 <View style={styles.container}>
