@@ -162,9 +162,7 @@ export default function AdvertImageUpload({ route, navigation }) {
               onChangeText={(text) => setDescription(text)}
               palceholder="Description"
             />
-            <View style={{ width: "95%" }}>
-              <StripeField />
-            </View>
+           
             <Button
               title="Pick an image from your gallery"
               onPress={pickImage}
