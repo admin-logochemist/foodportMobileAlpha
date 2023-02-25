@@ -11,6 +11,7 @@ import Auth from "./screens/Auth/Auth";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import { useSelector } from "react-redux";
 import Advertize from "./screens/Advertize/Advertize";
+import Myaddslist from "./screens/Advertize/Myaddslist";
 
 const Tab = createBottomTabNavigator();
 
@@ -99,6 +100,16 @@ export default function BtabNav() {
           // headerShown:false,
           tabBarIcon: ({ color, size }) => (
             <FontAwesome5 name="map" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="My ads"
+        component={Myaddslist}
+        options={{
+          // headerShown:false,
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome5 name="ads" color={color} size={size} />
           ),
         }}
       />

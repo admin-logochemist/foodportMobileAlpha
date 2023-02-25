@@ -14,7 +14,7 @@ const advertchunck = () => {
       .firestore()
       .collection("advertpackage")
       .where("active", "==", true)
-      .where("approval", "==", "Approved")
+      .where("approved", "==", "paid")
       .onSnapshot((snapshot) => {
         snapshot.docs.map((doc) => {
           _tempData.push({
