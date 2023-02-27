@@ -82,7 +82,8 @@ const Myaddslist = ({ navigation }) => {
 
   return (
     <>
-      <Tab
+    <SafeAreaView>
+    <Tab
         value={index}
         onChange={(e) => setIndex(e)}
         indicatorStyle={{
@@ -93,25 +94,26 @@ const Myaddslist = ({ navigation }) => {
       >
         <Tab.Item
           title={'Approved'}
-          titleStyle={{ fontSize: 16 }}
+          titleStyle={{ fontSize: 8 }}
           icon={{ name: "timer", type: "ionicon", color: "red" }}
         />
         <Tab.Item
           title={'Pending'}
-          titleStyle={{ fontSize: 16 }}
+          titleStyle={{ fontSize: 8 }}
           icon={{ name: "heart", type: "ionicon", color: "red" }}
         />
         <Tab.Item
           title={'Paid'}
-          titleStyle={{ fontSize: 15 }}
+          titleStyle={{ fontSize: 8 }}
           icon={{ name: "basket", type: "ionicon", color: "red" }}
         />
         <Tab.Item
           title={'Rejected'}
-          titleStyle={{ fontSize: 15 }}
+          titleStyle={{ fontSize: 8 }}
           icon={{ name: "basket", type: "ionicon", color: "red" }}
         />
       </Tab>
+      </SafeAreaView>
 
       <TabView value={index} onChange={setIndex} animationType="spring">
         <TabView.Item
@@ -293,11 +295,10 @@ const Myaddslist = ({ navigation }) => {
             }
           </ScrollView>
         </TabView.Item>
-      </TabView>
-      {/* <View style={{backgroundColor:"#DCDCDC", padding:10 }}>
-      <Text style={{color:"red" , fontSize:20, fontWeight:"bold", textAlign:"center" }}>Your Advertizement List</Text>
-    </View> */}
-    </>
+        </TabView>
+        
+        
+        </>
   )
 }
 

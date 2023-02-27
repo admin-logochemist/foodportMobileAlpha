@@ -128,8 +128,13 @@ const Advertpay = ({ navigation, route }) => {
   return (
     <StripeProvider publishableKey="pk_test_51KosFhFwyx0lKIchgvLaUYUDAmEOWLSGiJhMIy49eedrJxAwbS1CAvF8KEN7l7mXMJFeeoS2ZUEmtU3eJVYDeTtS00HY1Dbdzx">
       <SafeAreaView>
-        <View>
-          <Text style={{ textAlign: "center" }}>Pay For the Package</Text>
+        <View style={{margin:10}}>
+          <Text style={{ textAlign: "center", fontSize:20 }}>Pay For the Package</Text>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+          <View  style={{ marginTop:20, textAlign: "center" }}>
+          <Text style={{ fontSize:17, color:"red", fontWeight:"bold" }}>Click to GoBack</Text>
+          </View>
+          </TouchableOpacity>
           <CardField
             placeholders={{
               number: "4242 4242 4242 4242",

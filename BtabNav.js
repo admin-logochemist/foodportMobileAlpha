@@ -104,7 +104,7 @@ export default function BtabNav() {
         }}
       />
       <Tab.Screen
-        name="My ads"
+        name="My Advertizments Approvals"
         component={Myaddslist}
         options={{
           // headerShown:false,
