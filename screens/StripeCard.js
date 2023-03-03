@@ -20,7 +20,7 @@ const StripeCard = ({ navigation, route }) => {
   const [account, setAccount] = useState({});
   const [payment, setPayment] = useState({});
   const [customer, setCustomer] = useState({});
-  const API_URL = "http://192.168.100.72:3000"
+  const API_URL = "https://foodport-backend-v1.vercel.app/"
   const total = items
     .map((item) => Number(item.price.replace("$", "")))
     .reduce((prev, curr) => prev + curr, 0);
