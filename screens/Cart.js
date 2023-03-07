@@ -1,15 +1,17 @@
 import React from "react";
-import { View, Text, SafeAreaView, ScrollView, Image } from "react-native";
+import { View, Text, SafeAreaView, ScrollView, Image, TouchableOpacity } from "react-native";
 import { useSelector } from "react-redux";
 import { Divider } from "react-native-elements";
+import AntDesign from "react-native-vector-icons/AntDesign";
 
-function Cart(props) {
+function Cart({props, navigation}) {
   const { items, restaurantName } = useSelector(
     (state) => state.cartReducer.selectedItems
   );
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+   
       <Image
         style={{
           height: 160,
@@ -22,7 +24,17 @@ function Cart(props) {
         speed={0.5}
         loop={false}
       />
+      <View>
+   
+   </View>
       <Divider width={10} color={"red"} />
+      <TouchableOpacity
+   style={{ flexDirection: "row" }}
+   onPress={() => navigation.goBack()}
+ >
+   <AntDesign name="back" size={27} />
+   <Text style={{ fontSize: 20, textAlign: "center" }}>GoBack</Text>
+ </TouchableOpacity>
       <ScrollView>
         <View
           style={{

@@ -1,9 +1,10 @@
 import React from "react";
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import { Divider } from "react-native-elements";
 import About from "../components/restaurantDetail/About";
 import MenuItems from "../components/restaurantDetail/MenuItems";
 import ViewCart from "../components/restaurantDetail/ViewCart";
+import AntDesign from "react-native-vector-icons/AntDesign";
 
 const foods = [
   {
@@ -51,6 +52,13 @@ export default function RestaurantDetail({ route, navigation }) {
       <ScrollView>
         <About route={route} />
         <Divider width={1.8} style={{ marginVertical: 10 }} />
+        <TouchableOpacity
+          style={{ flexDirection: "row" }}
+          onPress={() => navigation.goBack()}
+        >
+          <AntDesign name="back" size={27} />
+          <Text style={{ fontSize: 20, textAlign: "center" }}>GoBack</Text>
+        </TouchableOpacity>
         <MenuItems restaurantName={route.params.name} foods={foods} />
       </ScrollView>
       <ViewCart navigation={navigation} />

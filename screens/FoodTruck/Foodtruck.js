@@ -15,6 +15,7 @@ import Buttonz from "../../components/foodtruck/Button.js";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Location from "expo-location";
 import SearchBar from "../../components/foodtruck/SearchBar.js";
+import AntDesign from "react-native-vector-icons/AntDesign";
 
 export default function Foodtruck({ navigation, ...props }) {
 
@@ -113,7 +114,8 @@ export default function Foodtruck({ navigation, ...props }) {
 
   return (
     <>
-      <View style={{}}>
+      <View>
+     
         <View style={{ alignItems: "center", backgroundColor: "#C0C0C0" }}>
           <Text
             style={{
@@ -134,6 +136,7 @@ export default function Foodtruck({ navigation, ...props }) {
         color="green"
         icon={{ name: 'place', color: 'white' }}
       />
+  
       </View>
           <>
             {usertype == "business" ? (
@@ -148,7 +151,15 @@ export default function Foodtruck({ navigation, ...props }) {
             )}
           </>
         </View>
+    
         <ScrollView>
+        <TouchableOpacity
+        style={{ flexDirection: "row" }}
+        onPress={() => navigation.goBack()}
+      >
+        <AntDesign name="back" color="black" size={27} />
+        <Text style={{ fontSize: 20, textAlign: "center", color:"black" }}>GoBack</Text>
+      </TouchableOpacity>
           <View
             style={{
               // margin: 15,

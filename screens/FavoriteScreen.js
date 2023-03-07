@@ -10,6 +10,7 @@ import React, { useState, useEffect } from "react";
 import firebase from "../firebase.js";
 import { Divider } from "react-native-elements";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import AntDesign from "react-native-vector-icons/AntDesign";
 
 export default function FavoriteScreen({ navigation, ...props }) {
   const [favourites, setFavourites] = useState([]);
@@ -38,6 +39,13 @@ export default function FavoriteScreen({ navigation, ...props }) {
   return (
     <View>
       <ScrollView>
+      <TouchableOpacity
+      style={{ flexDirection: "row" }}
+      onPress={() => navigation.goBack()}
+    >
+      <AntDesign name="back" size={27} />
+      <Text style={{ fontSize: 20, textAlign: "center" }}>GoBack</Text>
+    </TouchableOpacity>
         <View
           style={{
             // margin: 15,

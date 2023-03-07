@@ -6,6 +6,7 @@ import {
   ScrollView,
   Image,
   StyleSheet,
+  TouchableOpacity,
 } from "react-native";
 import { useSelector } from "react-redux";
 import LottieView from "lottie-react-native";
@@ -13,8 +14,10 @@ import firebase from "../firebase";
 import MenuItems from "../components/restaurantDetail/MenuItems";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Advertizement from "../components/Advertizement/Advertchunck.js";
+import AntDesign from "react-native-vector-icons/AntDesign";
 
-export default function Orders() {
+
+export default function Orders({ navigation }) {
   const [order, setOrder] = useState([]);
   const [email, setEmail] = useState("");
 
@@ -59,6 +62,7 @@ export default function Orders() {
           height: 250,
         }}
       >
+     
         <Image
           style={{ height: 250, width: "100%", alignSelf: "center" }}
           source={require("../assets/orders/Group_128.png")}
@@ -67,7 +71,13 @@ export default function Orders() {
           loop={false}
         />
       </View>
-
+      <TouchableOpacity
+      style={{ flexDirection: "row" }}
+      onPress={() => navigation.goBack()}
+    >
+      <AntDesign name="back" color="black" size={27} />
+      <Text style={{ fontSize: 20, textAlign: "center", color:"black" }}>GoBack</Text>
+    </TouchableOpacity>
       <Advertizement />
 
       <View
@@ -77,6 +87,7 @@ export default function Orders() {
           height: "100%",
         }}
       >
+     
         {order.map((_eachOrder, orderKey) => (
           <>
             <Text

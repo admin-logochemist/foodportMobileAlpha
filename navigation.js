@@ -37,7 +37,7 @@ export default function RootNavigation() {
   return (
     <ReduxProvider store={store}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="BtabNav" screenOptions={screenOptions}>
+        <Stack.Navigator initialRouteName="Auth" screenOptions={screenOptions}>
         <Stack.Screen name="Auth" component={Auth} />
          <Stack.Screen name="Loginz" component={Login} />
          <Stack.Screen name="Signup" component={Signup} />

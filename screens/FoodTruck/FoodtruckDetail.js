@@ -16,6 +16,7 @@ import firebase from "../../firebase.js";
 import * as Location from "expo-location";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import AntDesign from "react-native-vector-icons/AntDesign";
 
 export default function FoodtruckDetail({ route, navigation }) {
   const [isOnline, setIsOnline] = useState(false);
@@ -137,7 +138,15 @@ export default function FoodtruckDetail({ route, navigation }) {
   return (
     <>
       <ScrollView>
+
         <AboutFtruck route={route} />
+        <TouchableOpacity
+        style={{ flexDirection: "row" }}
+        onPress={() => navigation.goBack()}
+      >
+        <AntDesign name="back" color="black" size={27} />
+        <Text style={{ fontSize: 20, textAlign: "center", color:"black" }}>GoBack</Text>
+      </TouchableOpacity>
         <>
           <View style={{ marginTop: 15 }}>
             <TouchableOpacity

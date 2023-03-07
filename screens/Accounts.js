@@ -15,6 +15,8 @@ import { Card, Icon } from "react-native-elements";
 import React, { useState, useEffect } from "react";
 import firebase from "../firebase.js";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import AntDesign from "react-native-vector-icons/AntDesign";
+
 
 export default function Accounts({ navigation }) {
   const [account, setAccount] = useState("");
@@ -72,6 +74,13 @@ export default function Accounts({ navigation }) {
           blurRadius={2}
           source={require("../assets/accounts/alphaz.png")}
         >
+        <TouchableOpacity
+          style={{ flexDirection: "row" }}
+          onPress={() => navigation.goBack()}
+        >
+          <AntDesign name="back" color="white" size={27} />
+          <Text style={{ fontSize: 20, textAlign: "center", color:"white" }}>GoBack</Text>
+        </TouchableOpacity>
           <View style={styles.headerColumn}>
 
 {account.image? 

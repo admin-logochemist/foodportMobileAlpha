@@ -6,11 +6,13 @@ import {
   TouchableOpacity,
   StyleSheet,
   Alert,
+  SafeAreaView,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import firebase from "../firebase";
 import { CardField, useConfirmPayment, StripeProvider } from "@stripe/stripe-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import AntDesign from "react-native-vector-icons/AntDesign";
 
 const StripeCard = ({ navigation, route }) => {
   const { items, restaurantName, email, createdAt } = route.params;
@@ -144,6 +146,18 @@ const StripeCard = ({ navigation, route }) => {
   };
 
   return (
+  <>
+  <SafeAreaView>
+  <View>
+  <TouchableOpacity
+  style={{ flexDirection: "row" }}
+  onPress={() => navigation.goBack()}
+>
+  <AntDesign name="back" size={27} />
+  <Text style={{ fontSize: 20, textAlign: "center" }}>GoBack</Text>
+</TouchableOpacity>
+  </View>
+  
     <StripeProvider publishableKey="pk_test_51KosFhFwyx0lKIchgvLaUYUDAmEOWLSGiJhMIy49eedrJxAwbS1CAvF8KEN7l7mXMJFeeoS2ZUEmtU3eJVYDeTtS00HY1Dbdzx">
         <View style={{ marginTop: 50 }}>
         <Image
@@ -178,6 +192,8 @@ const StripeCard = ({ navigation, route }) => {
         </TouchableOpacity>
         </View>
     </StripeProvider>
+    </SafeAreaView>
+    </>
   );
 };
 

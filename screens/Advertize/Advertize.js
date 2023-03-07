@@ -3,6 +3,7 @@ import {
   Text,
   Button,
   ImageBackground,
+  TouchableOpacity,
 } from "react-native";
 import React, { useState } from "react";
 import {
@@ -12,6 +13,7 @@ import {
 } from "react-native-elements";
 import { useEffect } from "react";
 import firebase from "../../firebase.js";
+import AntDesign from "react-native-vector-icons/AntDesign";
 
 export default function Advertize({ navigation }) {
   const [index, setIndex] = useState(0);
@@ -50,6 +52,13 @@ export default function Advertize({ navigation }) {
   return (
     <>
     <View>
+    <TouchableOpacity
+    style={{ flexDirection: "row" }}
+    onPress={() => navigation.goBack()}
+  >
+    <AntDesign name="back" size={27} />
+    <Text style={{ fontSize: 20, textAlign: "center" }}>GoBack</Text>
+  </TouchableOpacity>
       </View>
       <Tab
         value={index}

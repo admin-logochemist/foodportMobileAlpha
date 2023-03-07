@@ -150,6 +150,7 @@ export default function AddFoodItems(props) {
       <ScrollView
         contentContainerStyle={{ paddingTop: 50, paddingHorizontal: 20 }}
       >
+      
         <Text style={{ color: "black", fontSize: 40, fontWeight: "bold" }}>
           Adding Food Truck Items
         </Text>

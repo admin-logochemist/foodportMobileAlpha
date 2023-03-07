@@ -109,11 +109,11 @@ export default function BtabNav() {
         options={{
           // headerShown:false,
           tabBarIcon: ({ color, size }) => (
-            <FontAwesome5 name="ads" color={color} size={size} />
+            <FontAwesome5 name="flag" color={color} size={size} />
           ),
         }}
       />
-      <Tab.Screen
+    {/*  <Tab.Screen
         name="Login"
         component={Auth}
         options={{
@@ -123,6 +123,7 @@ export default function BtabNav() {
           ),
         }}
       />
+      */}
     </Tab.Navigator>
   );
 }

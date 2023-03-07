@@ -5,6 +5,7 @@ import {
   ImageBackground,
   Button,
   Image,
+  TouchableOpacity,
 } from "react-native";
 import React from "react";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
@@ -17,6 +18,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Buttonz from "../../components/Advertizement/Button.js";
 import StripeField from "../../components/Stripe/Stripe.js";
 import uploadImageAsync from "../../services/UploadService";
+import AntDesign from "react-native-vector-icons/AntDesign";
 
 export default function AdvertImageUpload({ route, navigation }) {
   const [imageUri, setImage] = useState("");
@@ -90,6 +92,7 @@ export default function AdvertImageUpload({ route, navigation }) {
 
   return (
     <View>
+
       <ImageBackground
         source={require("../../assets/advertize/Group_39.png")}
         style={{
@@ -102,12 +105,22 @@ export default function AdvertImageUpload({ route, navigation }) {
           backgroundColor: "black",
         }}
       >
+      
+   
         <View style={{ alignItems: "center", width: "100%", marginTop: 100 }}>
+        <TouchableOpacity
+      style={{ flexDirection: "row" }}
+      onPress={() => navigation.goBack()}
+    >
+      <AntDesign name="back" color="white" size={27} />
+      <Text style={{ fontSize: 20, textAlign: "center", color:"white" }}>GoBack</Text>
+    </TouchableOpacity>
           <Image
             source={require("../../assets/logo/food_port_logo_WHITE-01.png")}
             style={{ width: 300, height: 70 }}
           />
         </View>
+      
         <ScrollView>
           <View
             style={{

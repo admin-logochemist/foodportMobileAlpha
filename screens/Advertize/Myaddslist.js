@@ -1,8 +1,9 @@
-import { View, Text, SafeAreaView, ScrollView, StyleSheet, ImageBackground } from 'react-native';
+import { View, Text, SafeAreaView, ScrollView, StyleSheet, ImageBackground, TouchableOpacity } from 'react-native';
 import React, { useEffect, useState } from "react";
 import { Divider, Button, Tab, TabView } from "react-native-elements";
 import firebase from "../../firebase.js";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import AntDesign from "react-native-vector-icons/AntDesign";
 
 const Myaddslist = ({ navigation }) => {
 
@@ -83,6 +84,13 @@ const Myaddslist = ({ navigation }) => {
   return (
     <>
     <SafeAreaView>
+    <TouchableOpacity
+    style={{ flexDirection: "row" }}
+    onPress={() => navigation.goBack()}
+  >
+    <AntDesign name="back" size={27} />
+    <Text style={{ fontSize: 20, textAlign: "center" }}>GoBack</Text>
+  </TouchableOpacity>
     <Tab
         value={index}
         onChange={(e) => setIndex(e)}
