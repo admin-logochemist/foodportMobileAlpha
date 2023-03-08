@@ -144,7 +144,7 @@ export default function Login({ props, navigation }) {
                 alignItems: "flex-end",
                 width: "78%",
                 paddingRight: 16,
-                marginBottom: 130,
+                marginBottom: 5,
               }}
             >
               <Text

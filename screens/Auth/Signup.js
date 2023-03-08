@@ -138,7 +138,7 @@ export default function Signup({ props, navigation }) {
       .createUserWithEmailAndPassword(email, password)
       .then((userCredentials) => {
         const user = userCredentials.user;
-      })
+      }) 
       .catch((error) => alert(error.message));
   };
 
