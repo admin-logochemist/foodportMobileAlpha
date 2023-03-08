@@ -1,31 +1,36 @@
 {
-    "expo": {
-        "name": "foodport",
-        "slug": "foodport",
-        "version": "1.1.0",
-        "platforms": [
-            "ios",
-            "android",
-            "web"
-        ],
-        "plugins": [
-            [
-                "expo-image-picker",
-                {
-                    "photosPermission": "The app accesses your photos to let you share them with your friends."
-                }
-            ]
-        ],
-        "extra": {
-            "eas": {
-                "projectId": "00753071-4298-4b97-92df-29b1a3735923"
-            }
-        },
-        "android": {
-            "package": "com.tylerscott.blank"
-        },
-        "ios": {
-            "bundleIdentifier": "com.tylerscott.blank"
+  "expo": {
+    "name": "Food port",
+    "slug": "food-port-app",
+    "icon": "assets/icons/app.png",
+    "version": "1.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you share them with your friends."
         }
-    }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "9059df1d-45f3-4324-a84f-ef78b1ec8a11"
+      }
+    },
+    "android": {
+      "package": "com.foodport.app",
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
+    },
+    "ios": {
+      "bundleIdentifier": "com.food.foodport"
+    },
+    "owner": "kdanial9"
+  }
 }
