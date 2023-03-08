@@ -113,7 +113,7 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.foodport"
+    namespace 'com.foodport.app'
     defaultConfig {
         applicationId 'com.foodport.app'
         minSdkVersion rootProject.ext.minSdkVersion

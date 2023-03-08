@@ -2,6 +2,7 @@
   "expo": {
     "name": "Food port",
     "slug": "food-port-app",
+    "icon": "assets/icons/app.png",
     "version": "1.0.0",
     "platforms": [
       "ios",
